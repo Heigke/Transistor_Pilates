@@ -1,0 +1,197 @@
+[2025-05-14 15:10:12] === Simplified System-Level Analogy Stress Test (Neuron LIF Focus) v0.1 ===
+[2025-05-14 15:10:12] Start time: Wed May 14 03:10:12 PM CEST 2025
+[2025-05-14 15:10:12] Logging to: simplified_stress_data_20250514_151012/stress_analog_run.log
+[2025-05-14 15:10:12] Data CSV: simplified_stress_data_20250514_151012/neuron_lif_analogy_data.csv
+[2025-05-14 15:10:12] CPU: Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz
+BIOS Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz To Be Filled By O.E.M. CPU @ 2.3GHz
+[2025-05-14 15:10:12] Kernel: 6.11.0-25-generic
+[2025-05-14 15:10:12] [1] Capturing Initial Baseline State...
+[2025-05-14 15:10:12]   Initial: Temp=49.0C, Freq=3600000KHz
+[2025-05-14 15:10:13] [2] Starting 'Integrate & Fire' Analogy (CPU Stress for 60s)...
+[2025-05-14 15:10:13]   Applying CPU stress: 8 threads for 60s...
+[2025-05-14 15:10:13]   Stressing (1s/60s): Temp=36.0C, Freq=1200000KHz
+[2025-05-14 15:10:14]   Stressing (2s/60s): Temp=81.0C, Freq=4100000KHz
+[2025-05-14 15:10:15]   Stressing (3s/60s): Temp=83.0C, Freq=4100000KHz
+[2025-05-14 15:10:16]   Stressing (4s/60s): Temp=85.0C, Freq=4100000KHz
+[2025-05-14 15:10:17]   Stressing (5s/60s): Temp=85.0C, Freq=4100000KHz
+[2025-05-14 15:10:18]   Stressing (6s/60s): Temp=86.0C, Freq=4100000KHz
+[2025-05-14 15:10:20]   Stressing (7s/60s): Temp=89.0C, Freq=4002000KHz
+[2025-05-14 15:10:21]   Stressing (8s/60s): Temp=91.0C, Freq=3923000KHz
+[2025-05-14 15:10:22]   Stressing (9s/60s): Temp=91.0C, Freq=4050000KHz
+[2025-05-14 15:10:23]   Stressing (10s/60s): Temp=91.0C, Freq=4059000KHz
+[2025-05-14 15:10:24]   Stressing (11s/60s): Temp=92.0C, Freq=3469000KHz
+[2025-05-14 15:10:25]   Stressing (12s/60s): Temp=96.0C, Freq=3955000KHz
+[2025-05-14 15:10:26]   Stressing (13s/60s): Temp=61.0C, Freq=2200000KHz
+[2025-05-14 15:10:27]   Stressing (14s/60s): Temp=78.0C, Freq=3400000KHz
+[2025-05-14 15:10:28]   Stressing (15s/60s): Temp=79.0C, Freq=3400000KHz
+[2025-05-14 15:10:29]   Stressing (16s/60s): Temp=79.0C, Freq=3400000KHz
+[2025-05-14 15:10:30]   Stressing (17s/60s): Temp=79.0C, Freq=3400000KHz
+[2025-05-14 15:10:32]   Stressing (18s/60s): Temp=79.0C, Freq=3300000KHz
+[2025-05-14 15:10:33]   Stressing (19s/60s): Temp=80.0C, Freq=3400000KHz
+[2025-05-14 15:10:34]   Stressing (20s/60s): Temp=79.0C, Freq=3300000KHz
+[2025-05-14 15:10:35]   Stressing (21s/60s): Temp=80.0C, Freq=3400000KHz
+[2025-05-14 15:10:36]   Stressing (22s/60s): Temp=80.0C, Freq=3400000KHz
+[2025-05-14 15:10:37]   Stressing (23s/60s): Temp=81.0C, Freq=3400000KHz
+[2025-05-14 15:10:38]   Stressing (24s/60s): Temp=80.0C, Freq=3300000KHz
+[2025-05-14 15:10:39]   Stressing (25s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:10:40]   Stressing (26s/60s): Temp=81.0C, Freq=3400000KHz
+[2025-05-14 15:10:41]   Stressing (27s/60s): Temp=84.0C, Freq=3400000KHz
+[2025-05-14 15:10:43]   Stressing (28s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:44]   Stressing (29s/60s): Temp=80.0C, Freq=3300000KHz
+[2025-05-14 15:10:45]   Stressing (30s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:46]   Stressing (31s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:47]   Stressing (32s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:48]   Stressing (33s/60s): Temp=81.0C, Freq=3300000KHz
+[2025-05-14 15:10:49]   Stressing (34s/60s): Temp=82.0C, Freq=3300000KHz
+[2025-05-14 15:10:50]   Stressing (35s/60s): Temp=81.0C, Freq=3300000KHz
+[2025-05-14 15:10:51]   Stressing (36s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:52]   Stressing (37s/60s): Temp=84.0C, Freq=3500000KHz
+[2025-05-14 15:10:54]   Stressing (38s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:10:55]   Stressing (39s/60s): Temp=82.0C, Freq=3300000KHz
+[2025-05-14 15:10:56]   Stressing (40s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:10:57]   Stressing (41s/60s): Temp=84.0C, Freq=3400000KHz
+[2025-05-14 15:10:58]   Stressing (42s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:10:59]   Stressing (43s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:11:00]   Stressing (44s/60s): Temp=84.0C, Freq=3400000KHz
+[2025-05-14 15:11:01]   Stressing (45s/60s): Temp=84.0C, Freq=3400000KHz
+[2025-05-14 15:11:02]   Stressing (46s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:11:03]   Stressing (47s/60s): Temp=81.0C, Freq=3400000KHz
+[2025-05-14 15:11:05]   Stressing (48s/60s): Temp=85.0C, Freq=3500000KHz
+[2025-05-14 15:11:06]   Stressing (49s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:11:07]   Stressing (50s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:11:08]   Stressing (51s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:11:09]   Stressing (52s/60s): Temp=83.0C, Freq=3400000KHz
+[2025-05-14 15:11:10]   Stressing (53s/60s): Temp=81.0C, Freq=3300000KHz
+[2025-05-14 15:11:11]   Stressing (54s/60s): Temp=82.0C, Freq=3400000KHz
+[2025-05-14 15:11:12]   Stressing (55s/60s): Temp=80.0C, Freq=3300000KHz
+[2025-05-14 15:11:13]   CPU stress finished.
+[2025-05-14 15:11:13]   Stress process 230878 ended earlier than expected.
+[2025-05-14 15:11:13] 'Integrate & Fire' phase complete.
+[2025-05-14 15:11:13] [3] Starting 'Leak & Recover' Analogy (Monitoring for 120s)...
+[2025-05-14 15:11:13]   Recovering (1s/120s): Temp=62.0C, Freq=1400000KHz
+[2025-05-14 15:11:14]   Recovering (2s/120s): Temp=57.0C, Freq=1699000KHz
+[2025-05-14 15:11:15]   Recovering (3s/120s): Temp=66.0C, Freq=4247000KHz
+[2025-05-14 15:11:16]   Recovering (4s/120s): Temp=54.0C, Freq=3600000KHz
+[2025-05-14 15:11:17]   Recovering (5s/120s): Temp=55.0C, Freq=1500000KHz
+[2025-05-14 15:11:18]   Recovering (6s/120s): Temp=52.0C, Freq=3200000KHz
+[2025-05-14 15:11:19]   Recovering (7s/120s): Temp=52.0C, Freq=1200000KHz
+[2025-05-14 15:11:20]   Recovering (8s/120s): Temp=87.0C, Freq=4336000KHz
+[2025-05-14 15:11:21]   Recovering (9s/120s): Temp=51.0C, Freq=2360000KHz
+[2025-05-14 15:11:22]   Recovering (10s/120s): Temp=51.0C, Freq=1199000KHz
+[2025-05-14 15:11:24]   Recovering (11s/120s): Temp=49.0C, Freq=1200000KHz
+[2025-05-14 15:11:25]   Recovering (12s/120s): Temp=48.0C, Freq=3800000KHz
+[2025-05-14 15:11:26]   Recovering (13s/120s): Temp=84.0C, Freq=4119000KHz
+[2025-05-14 15:11:27]   Recovering (14s/120s): Temp=48.0C, Freq=3501000KHz
+[2025-05-14 15:11:28]   Recovering (15s/120s): Temp=49.0C, Freq=1200000KHz
+[2025-05-14 15:11:29]   Recovering (16s/120s): Temp=47.0C, Freq=1200000KHz
+[2025-05-14 15:11:30]   Recovering (17s/120s): Temp=47.0C, Freq=1201000KHz
+[2025-05-14 15:11:31]   Recovering (18s/120s): Temp=81.0C, Freq=4164000KHz
+[2025-05-14 15:11:32]   Recovering (19s/120s): Temp=45.0C, Freq=1100000KHz
+[2025-05-14 15:11:33]   Recovering (20s/120s): Temp=46.0C, Freq=1100000KHz
+[2025-05-14 15:11:34]   Recovering (21s/120s): Temp=44.0C, Freq=3800000KHz
+[2025-05-14 15:11:35]   Recovering (22s/120s): Temp=48.0C, Freq=3468000KHz
+[2025-05-14 15:11:36]   Recovering (23s/120s): Temp=44.0C, Freq=3799000KHz
+[2025-05-14 15:11:37]   Recovering (24s/120s): Temp=44.0C, Freq=3602000KHz
+[2025-05-14 15:11:38]   Recovering (25s/120s): Temp=43.0C, Freq=1200000KHz
+[2025-05-14 15:11:39]   Recovering (26s/120s): Temp=42.0C, Freq=3802000KHz
+[2025-05-14 15:11:40]   Recovering (27s/120s): Temp=42.0C, Freq=3700000KHz
+[2025-05-14 15:11:41]   Recovering (28s/120s): Temp=42.0C, Freq=1099000KHz
+[2025-05-14 15:11:42]   Recovering (29s/120s): Temp=42.0C, Freq=3800000KHz
+[2025-05-14 15:11:43]   Recovering (30s/120s): Temp=41.0C, Freq=3600000KHz
+[2025-05-14 15:11:44]   Recovering (31s/120s): Temp=42.0C, Freq=3600000KHz
+[2025-05-14 15:11:45]   Recovering (32s/120s): Temp=41.0C, Freq=3500000KHz
+[2025-05-14 15:11:46]   Recovering (33s/120s): Temp=40.0C, Freq=3500000KHz
+[2025-05-14 15:11:47]   Recovering (34s/120s): Temp=40.0C, Freq=3300000KHz
+[2025-05-14 15:11:48]   Recovering (35s/120s): Temp=40.0C, Freq=3300000KHz
+[2025-05-14 15:11:49]   Recovering (36s/120s): Temp=40.0C, Freq=3600000KHz
+[2025-05-14 15:11:50]   Recovering (37s/120s): Temp=40.0C, Freq=3203000KHz
+[2025-05-14 15:11:51]   Recovering (38s/120s): Temp=39.0C, Freq=3806000KHz
+[2025-05-14 15:11:52]   Recovering (39s/120s): Temp=39.0C, Freq=3500000KHz
+[2025-05-14 15:11:53]   Recovering (40s/120s): Temp=39.0C, Freq=3999000KHz
+[2025-05-14 15:11:54]   Recovering (41s/120s): Temp=39.0C, Freq=1200000KHz
+[2025-05-14 15:11:55]   Recovering (42s/120s): Temp=39.0C, Freq=1200000KHz
+[2025-05-14 15:11:56]   Recovering (43s/120s): Temp=39.0C, Freq=3200000KHz
+[2025-05-14 15:11:57]   Recovering (44s/120s): Temp=38.0C, Freq=1100000KHz
+[2025-05-14 15:11:58]   Recovering (45s/120s): Temp=38.0C, Freq=3300000KHz
+[2025-05-14 15:11:59]   Recovering (46s/120s): Temp=38.0C, Freq=3800000KHz
+[2025-05-14 15:12:00]   Recovering (47s/120s): Temp=38.0C, Freq=3803000KHz
+[2025-05-14 15:12:01]   Recovering (48s/120s): Temp=38.0C, Freq=3500000KHz
+[2025-05-14 15:12:03]   Recovering (49s/120s): Temp=38.0C, Freq=3600000KHz
+[2025-05-14 15:12:04]   Recovering (50s/120s): Temp=37.0C, Freq=3801000KHz
+[2025-05-14 15:12:05]   Recovering (51s/120s): Temp=38.0C, Freq=3800000KHz
+[2025-05-14 15:12:06]   Recovering (52s/120s): Temp=37.0C, Freq=1400000KHz
+[2025-05-14 15:12:07]   Recovering (53s/120s): Temp=37.0C, Freq=3246000KHz
+[2025-05-14 15:12:08]   Recovering (54s/120s): Temp=37.0C, Freq=3846000KHz
+[2025-05-14 15:12:09]   Recovering (55s/120s): Temp=37.0C, Freq=3800000KHz
+[2025-05-14 15:12:10]   Recovering (56s/120s): Temp=37.0C, Freq=1200000KHz
+[2025-05-14 15:12:11]   Recovering (57s/120s): Temp=37.0C, Freq=3700000KHz
+[2025-05-14 15:12:12]   Recovering (58s/120s): Temp=37.0C, Freq=3895000KHz
+[2025-05-14 15:12:13]   Recovering (59s/120s): Temp=36.0C, Freq=3600000KHz
+[2025-05-14 15:12:14]   Recovering (60s/120s): Temp=37.0C, Freq=3500000KHz
+[2025-05-14 15:12:15]   Recovering (61s/120s): Temp=36.0C, Freq=3800000KHz
+[2025-05-14 15:12:16]   Recovering (62s/120s): Temp=36.0C, Freq=4100000KHz
+[2025-05-14 15:12:17]   Recovering (63s/120s): Temp=36.0C, Freq=3800000KHz
+[2025-05-14 15:12:18]   Recovering (64s/120s): Temp=82.0C, Freq=4147000KHz
+[2025-05-14 15:12:19]   Recovering (65s/120s): Temp=37.0C, Freq=3700000KHz
+[2025-05-14 15:12:20]   Recovering (66s/120s): Temp=37.0C, Freq=3600000KHz
+[2025-05-14 15:12:21]   Recovering (67s/120s): Temp=37.0C, Freq=3600000KHz
+[2025-05-14 15:12:22]   Recovering (68s/120s): Temp=37.0C, Freq=3800000KHz
+[2025-05-14 15:12:23]   Recovering (69s/120s): Temp=72.0C, Freq=4135000KHz
+[2025-05-14 15:12:24]   Recovering (70s/120s): Temp=38.0C, Freq=1200000KHz
+[2025-05-14 15:12:25]   Recovering (71s/120s): Temp=38.0C, Freq=3600000KHz
+[2025-05-14 15:12:26]   Recovering (72s/120s): Temp=37.0C, Freq=3800000KHz
+[2025-05-14 15:12:27]   Recovering (73s/120s): Temp=37.0C, Freq=3400000KHz
+[2025-05-14 15:12:28]   Recovering (74s/120s): Temp=82.0C, Freq=4291000KHz
+[2025-05-14 15:12:29]   Recovering (75s/120s): Temp=38.0C, Freq=1200000KHz
+[2025-05-14 15:12:30]   Recovering (76s/120s): Temp=38.0C, Freq=3599000KHz
+[2025-05-14 15:12:31]   Recovering (77s/120s): Temp=38.0C, Freq=3999000KHz
+[2025-05-14 15:12:32]   Recovering (78s/120s): Temp=38.0C, Freq=4100000KHz
+[2025-05-14 15:12:33]   Recovering (79s/120s): Temp=45.0C, Freq=2102000KHz
+[2025-05-14 15:12:34]   Recovering (80s/120s): Temp=41.0C, Freq=2900000KHz
+[2025-05-14 15:12:35]   Recovering (81s/120s): Temp=38.0C, Freq=1201000KHz
+[2025-05-14 15:12:36]   Recovering (82s/120s): Temp=39.0C, Freq=3800000KHz
+[2025-05-14 15:12:37]   Recovering (83s/120s): Temp=38.0C, Freq=3300000KHz
+[2025-05-14 15:12:38]   Recovering (84s/120s): Temp=43.0C, Freq=1199000KHz
+[2025-05-14 15:12:39]   Recovering (85s/120s): Temp=39.0C, Freq=1100000KHz
+[2025-05-14 15:12:40]   Recovering (86s/120s): Temp=38.0C, Freq=3800000KHz
+[2025-05-14 15:12:41]   Recovering (87s/120s): Temp=39.0C, Freq=3501000KHz
+[2025-05-14 15:12:42]   Recovering (88s/120s): Temp=38.0C, Freq=3200000KHz
+[2025-05-14 15:12:43]   Recovering (89s/120s): Temp=46.0C, Freq=2400000KHz
+[2025-05-14 15:12:45]   Recovering (90s/120s): Temp=40.0C, Freq=1200000KHz
+[2025-05-14 15:12:46]   Recovering (91s/120s): Temp=39.0C, Freq=3800000KHz
+[2025-05-14 15:12:47]   Recovering (92s/120s): Temp=39.0C, Freq=1200000KHz
+[2025-05-14 15:12:48]   Recovering (93s/120s): Temp=38.0C, Freq=3800000KHz
+[2025-05-14 15:12:49]   Recovering (94s/120s): Temp=45.0C, Freq=2900000KHz
+[2025-05-14 15:12:50]   Recovering (95s/120s): Temp=42.0C, Freq=3000000KHz
+[2025-05-14 15:12:51]   Recovering (96s/120s): Temp=39.0C, Freq=1200000KHz
+[2025-05-14 15:12:52]   Recovering (97s/120s): Temp=39.0C, Freq=3800000KHz
+[2025-05-14 15:12:53]   Recovering (98s/120s): Temp=39.0C, Freq=3301000KHz
+[2025-05-14 15:12:54]   Recovering (99s/120s): Temp=39.0C, Freq=3600000KHz
+[2025-05-14 15:12:55]   Recovering (100s/120s): Temp=81.0C, Freq=4308000KHz
+[2025-05-14 15:12:56]   Recovering (101s/120s): Temp=39.0C, Freq=3800000KHz
+[2025-05-14 15:12:57]   Recovering (102s/120s): Temp=38.0C, Freq=3100000KHz
+[2025-05-14 15:12:58]   Recovering (103s/120s): Temp=38.0C, Freq=3400000KHz
+[2025-05-14 15:12:59]   Recovering (104s/120s): Temp=39.0C, Freq=3400000KHz
+[2025-05-14 15:13:00]   Recovering (105s/120s): Temp=73.0C, Freq=4100000KHz
+[2025-05-14 15:13:01]   Recovering (106s/120s): Temp=40.0C, Freq=3600000KHz
+[2025-05-14 15:13:02]   Recovering (107s/120s): Temp=39.0C, Freq=3500000KHz
+[2025-05-14 15:13:03]   Recovering (108s/120s): Temp=39.0C, Freq=3600000KHz
+[2025-05-14 15:13:04]   Recovering (109s/120s): Temp=39.0C, Freq=3200000KHz
+[2025-05-14 15:13:05]   Recovering (110s/120s): Temp=85.0C, Freq=4199000KHz
+[2025-05-14 15:13:06]   Recovering (111s/120s): Temp=40.0C, Freq=3833000KHz
+[2025-05-14 15:13:07]   Recovering (112s/120s): Temp=39.0C, Freq=3400000KHz
+[2025-05-14 15:13:08]   Recovering (113s/120s): Temp=39.0C, Freq=3300000KHz
+[2025-05-14 15:13:09]   Recovering (114s/120s): Temp=39.0C, Freq=1100000KHz
+[2025-05-14 15:13:10]   Recovering (115s/120s): Temp=74.0C, Freq=4107000KHz
+[2025-05-14 15:13:11]   Recovering (116s/120s): Temp=40.0C, Freq=3500000KHz
+[2025-05-14 15:13:12]   Recovering (117s/120s): Temp=39.0C, Freq=3400000KHz
+[2025-05-14 15:13:13]   Recovering (118s/120s): Temp=39.0C, Freq=3200000KHz
+[2025-05-14 15:13:14]   Recovering (119s/120s): Temp=39.0C, Freq=4091000KHz
+[2025-05-14 15:13:15]   Recovering (120s/120s): Temp=88.0C, Freq=4281000KHz
+[2025-05-14 15:13:16] 'Leak & Recover' phase complete.
+[2025-05-14 15:13:16] [4] Test Finished.
+[2025-05-14 15:13:16] Review data in: simplified_stress_data_20250514_151012/neuron_lif_analogy_data.csv
+[2025-05-14 15:13:16] Full log in: simplified_stress_data_20250514_151012/stress_analog_run.log
+[2025-05-14 15:13:17] Attempting to generate a simple plot...
+[2025-05-14 15:13:19] [*] Cleaning up potential stray processes...
+[2025-05-14 15:13:19] [*] Cleanup finished.

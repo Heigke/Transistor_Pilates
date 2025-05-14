@@ -1,0 +1,19 @@
+[2025-05-14 15:13:50] === Simplified Test for hammer.c ===
+[2025-05-14 15:13:50] [ERROR] provided_hammer.c not found. Please place your C source file here.
+[2025-05-14 15:13:50] [INFO] Created a default provided_hammer.c as it was missing. Please use your own if intended.
+[2025-05-14 15:13:50] [*] Compiling provided_hammer.c to ./hammer_compiled ...
+[2025-05-14 15:13:50] [+] Hammer compilation successful: ./hammer_compiled
+[2025-05-14 15:13:50]   Baseline: Temp=49.0C, Freq=1600000KHz
+[2025-05-14 15:13:52] [*] Starting Hammer test (approx 60s monitor)...
+[2025-05-14 15:13:52]     Command: ./hammer_compiled --reps 20000000 --threads 8 --stop-on-first-flip
+[2025-05-14 15:13:52]   Hammering: Temp=56.0C, Freq=4100000KHz (PID: 237138)
+[2025-05-14 15:13:55]   Hammering: Temp=60.0C, Freq=4100000KHz (PID: 237138)
+[2025-05-14 15:13:57]   Hammering: Temp=70.0C, Freq=4100000KHz (PID: 237138)
+[2025-05-14 15:13:59]   Hammering: Temp=65.0C, Freq=4100000KHz (PID: 237138)
+[2025-05-14 15:14:01] [INFO] Hammer process 237138 finished with exit code: 0.
+[2025-05-14 15:14:01] [INFO] Hammer reported no bit flips.
+[2025-05-14 15:14:01] [*] Hammer finished. Monitoring recovery...
+[2025-05-14 15:14:01]   Post-Hammer: Temp=51.0C, Freq=4133000KHz. Hammer Exit: 0
+[2025-05-14 15:14:03] [*] Hammer Test Finished. Data in hammer_test_20250514_151350/hammer_telemetry_data.csv. Log in hammer_test_20250514_151350/hammer_run.log.
+[2025-05-14 15:14:03] [*] Cleaning up ./hammer_compiled...
+[2025-05-14 15:14:03] [*] Cleanup finished.

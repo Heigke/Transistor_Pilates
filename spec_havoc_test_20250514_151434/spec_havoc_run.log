@@ -1,0 +1,15 @@
+[2025-05-14 15:14:34] === Simplified Test for spec_havoc.S ===
+[2025-05-14 15:14:34] [ERROR] provided_spec_havoc.S not found. Please place your Assembly source file here.
+[2025-05-14 15:14:34] [INFO] Created a default provided_spec_havoc.S as it was missing. Please use your own if intended.
+[2025-05-14 15:14:34] [*] Assembling and linking provided_spec_havoc.S to spec_havoc_test_20250514_151434/spec_havoc_compiled...
+[2025-05-14 15:14:34] [+] Spec Havoc compilation successful: spec_havoc_test_20250514_151434/spec_havoc_compiled
+[2025-05-14 15:14:34]   Baseline: Temp=49.0C, Freq=3800000KHz
+[2025-05-14 15:14:35] [*] Starting Spec Havoc test (60s)...
+[2025-05-14 15:14:35]   Havoc Stress (1s/60s): Temp=49.0C, Freq=4113000KHz
+[2025-05-14 15:14:36]   Spec Havoc process 237582 ended earlier than expected.
+[2025-05-14 15:14:36] Spec Havoc stress phase complete.
+[2025-05-14 15:14:36] [*] Spec Havoc finished. Monitoring recovery...
+[2025-05-14 15:14:36]   Post-Havoc: Temp=40.0C, Freq=1500000KHz
+[2025-05-14 15:14:37] [*] Spec Havoc Test Finished. Data in spec_havoc_test_20250514_151434/spec_havoc_telemetry_data.csv. Log in spec_havoc_test_20250514_151434/spec_havoc_run.log.
+[2025-05-14 15:14:37] [*] Cleaning up spec_havoc_compiled ...
+[2025-05-14 15:14:37] [*] Cleanup finished.

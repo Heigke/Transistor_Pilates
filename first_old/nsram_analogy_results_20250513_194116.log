@@ -1,0 +1,725 @@
+[2025-05-13 19:41:16] === Advanced NS-RAM System Analogy Stress Test v2.3 ===
+[2025-05-13 19:41:16] Start time: Tue May 13 07:41:16 PM CEST 2025
+[2025-05-13 19:41:16] !!! EXTREME WARNING: DANGEROUS & EXPERIMENTAL SCRIPT !!!
+[2025-05-13 19:41:16] Mode: ALL
+[2025-05-13 19:41:16] CPU: Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz
+BIOS Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz To Be Filled By O.E.M. CPU @ 2.3GHz
+[2025-05-13 19:41:16] Kernel: 6.11.0-25-generic
+[2025-05-13 19:41:16] [*] Initial system configuration...
+[2025-05-13 19:41:16] [*] Compiling custom stress tools...
+[2025-05-13 19:41:16] [*] Compiling enhanced hammer tool (v2.2)...
+[2025-05-13 19:41:17] [+] Hammer compilation successful.
+[2025-05-13 19:41:17] [*] Compiling enhanced spec_havoc tool (v2.1)...
+[2025-05-13 19:41:17] [+] Spec Havoc compilation successful.
+[2025-05-13 19:41:17] [1] CAPTURING SYSTEM BASELINE
+[2025-05-13 19:41:18]   Initial frequency: 2700000 KHz, Initial temp: 31.0 C
+[2025-05-13 19:41:18]   Running Baseline Performance (Sysbench with Perf)...
+[2025-05-13 19:41:18]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:41:18]     Using perf stat with CSV output.
+[2025-05-13 19:41:38]     Sysbench score: 3324.38 events/sec
+[2025-05-13 19:41:38]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:41:38]     DEBUG: For IPC calc: instructions_val='76377519163', cycles_val='214960896721'
+[2025-05-13 19:41:38]     Perf Metrics: IPC=N/A, L1D Misses=5550009, LLC Misses=112309, Branch Misses=234657206
+[2025-05-13 19:41:38]   Baseline Sysbench CPU Score: 3324.38 events/sec
+[2025-05-13 19:41:38]   Baseline Perf: IPC=N/A, L1D=5550009, LLC=112309, Branch=234657206
+[2025-05-13 19:41:38]   Running Baseline Memory Bandwidth (mbw)...
+[2025-05-13 19:41:38]   Running mbw memory benchmark...
+[2025-05-13 19:41:45]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:41:45]     MBW Score: 7648.30 MB/s
+[2025-05-13 19:41:45]   Baseline MBW Score: 7648.30 MB/s
+[2025-05-13 19:41:45]   Getting Baseline ECC Errors...
+[2025-05-13 19:41:45]   Checking ECC errors...
+[2025-05-13 19:41:45]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:41:45]   Baseline ECC: CE=N/A, UE=N/A
+[2025-05-13 19:41:45] [*] Generating test data (25 MB)...
+[2025-05-13 19:41:46] Original data hash (MD5): 4d5c58767f43641c236145236b1f8a6b
+[2025-05-13 19:41:46] \n[2] NEURON MODE TEST (LIF Analogy)
+[2025-05-13 19:41:46] Neuron Cycle 1/5: Applying Pulse (τon)...
+[2025-05-13 19:41:46]   Applying stress level 'max' for 5s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:41:52]     Timeout reached for stress level 'max', ensuring process 189153 is stopped.
+[2025-05-13 19:41:52]   Stress level 'max' application finished.
+[2025-05-13 19:41:52]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:41:52]     Using perf stat with CSV output.
+[2025-05-13 19:42:13]     Sysbench score: 3324.96 events/sec
+[2025-05-13 19:42:13]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:42:13]     DEBUG: For IPC calc: instructions_val='76423495585', cycles_val='215124617573'
+[2025-05-13 19:42:13]     Perf Metrics: IPC=N/A, L1D Misses=5362841, LLC Misses=122350, Branch Misses=235067875
+[2025-05-13 19:42:13]   Running mbw memory benchmark...
+[2025-05-13 19:42:20]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:42:20]     MBW Score: 7729.58 MB/s
+[2025-05-13 19:42:20]   Checking ECC errors...
+[2025-05-13 19:42:20]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:42:20]   Pulse End: Temp=39.0C, Freq=2700000KHz, IPC=N/A, MBW=7729.58
+[2025-05-13 19:42:20] Neuron Cycle 1/5: Recovery phase (τoff - Leaking)...
+[2025-05-13 19:42:25]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:42:25]     Using perf stat with CSV output.
+[2025-05-13 19:42:45]     Sysbench score: 3321.79 events/sec
+[2025-05-13 19:42:45]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:42:45]     DEBUG: For IPC calc: instructions_val='76315007807', cycles_val='215047129264'
+[2025-05-13 19:42:45]     Perf Metrics: IPC=N/A, L1D Misses=5317975, LLC Misses=114563, Branch Misses=242243624
+[2025-05-13 19:42:45]   Running mbw memory benchmark...
+[2025-05-13 19:42:53]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:42:53]     MBW Score: 7719.54 MB/s
+[2025-05-13 19:42:53]   Checking ECC errors...
+[2025-05-13 19:42:53]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:42:53]   Recovery End: Temp=39.0C, Freq=2700000KHz, IPC=N/A, MBW=7719.54
+[2025-05-13 19:42:53] Neuron Cycle 2/5: Applying Pulse (τon)...
+[2025-05-13 19:42:53]   Applying stress level 'max' for 5s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:42:58]     stress-ng process 189865 finished early or was killed.
+[2025-05-13 19:42:58]   Stress level 'max' application finished.
+[2025-05-13 19:42:58]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:42:58]     Using perf stat with CSV output.
+[2025-05-13 19:43:18]     Sysbench score: 3323.61 events/sec
+[2025-05-13 19:43:18]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:43:18]     DEBUG: For IPC calc: instructions_val='76365535932', cycles_val='215174031273'
+[2025-05-13 19:43:19]     Perf Metrics: IPC=N/A, L1D Misses=5322923, LLC Misses=118879, Branch Misses=242500528
+[2025-05-13 19:43:19]   Running mbw memory benchmark...
+[2025-05-13 19:43:26]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:43:26]     MBW Score: 7611.19 MB/s
+[2025-05-13 19:43:26]   Checking ECC errors...
+[2025-05-13 19:43:26]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:43:26]   Pulse End: Temp=42.0C, Freq=2700000KHz, IPC=N/A, MBW=7611.19
+[2025-05-13 19:43:26] Neuron Cycle 2/5: Recovery phase (τoff - Leaking)...
+[2025-05-13 19:43:31]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:43:31]     Using perf stat with CSV output.
+[2025-05-13 19:43:51]     Sysbench score: 3322.53 events/sec
+[2025-05-13 19:43:51]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:43:51]     DEBUG: For IPC calc: instructions_val='76302285232', cycles_val='215090655948'
+[2025-05-13 19:43:51]     Perf Metrics: IPC=N/A, L1D Misses=5530985, LLC Misses=120503, Branch Misses=243991901
+[2025-05-13 19:43:51]   Running mbw memory benchmark...
+[2025-05-13 19:43:59]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:43:59]     MBW Score: 7715.13 MB/s
+[2025-05-13 19:43:59]   Checking ECC errors...
+[2025-05-13 19:43:59]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:43:59]   Recovery End: Temp=39.0C, Freq=2700000KHz, IPC=N/A, MBW=7715.13
+[2025-05-13 19:43:59] Neuron Cycle 3/5: Applying Pulse (τon)...
+[2025-05-13 19:43:59]   Applying stress level 'max' for 5s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:44:04]     Timeout reached for stress level 'max', ensuring process 190557 is stopped.
+[2025-05-13 19:44:05]   Stress level 'max' application finished.
+[2025-05-13 19:44:05]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:44:05]     Using perf stat with CSV output.
+[2025-05-13 19:44:25]     Sysbench score: 3323.97 events/sec
+[2025-05-13 19:44:25]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:44:25]     DEBUG: For IPC calc: instructions_val='76393978919', cycles_val='214940740063'
+[2025-05-13 19:44:25]     Perf Metrics: IPC=N/A, L1D Misses=5213956, LLC Misses=114961, Branch Misses=232663323
+[2025-05-13 19:44:25]   Running mbw memory benchmark...
+[2025-05-13 19:44:32]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:44:32]     MBW Score: 7769.04 MB/s
+[2025-05-13 19:44:32]   Checking ECC errors...
+[2025-05-13 19:44:32]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:44:32]   Pulse End: Temp=43.0C, Freq=2700000KHz, IPC=N/A, MBW=7769.04
+[2025-05-13 19:44:32] Neuron Cycle 3/5: Recovery phase (τoff - Leaking)...
+[2025-05-13 19:44:37]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:44:38]     Using perf stat with CSV output.
+[2025-05-13 19:44:58]     Sysbench score: 3324.11 events/sec
+[2025-05-13 19:44:58]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:44:58]     DEBUG: For IPC calc: instructions_val='76312078407', cycles_val='215091617518'
+[2025-05-13 19:44:58]     Perf Metrics: IPC=N/A, L1D Misses=5141654, LLC Misses=112343, Branch Misses=241938026
+[2025-05-13 19:44:58]   Running mbw memory benchmark...
+[2025-05-13 19:45:05]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:45:05]     MBW Score: 7710.48 MB/s
+[2025-05-13 19:45:05]   Checking ECC errors...
+[2025-05-13 19:45:05]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:45:05]   Recovery End: Temp=41.0C, Freq=2700000KHz, IPC=N/A, MBW=7710.48
+[2025-05-13 19:45:05] Neuron Cycle 4/5: Applying Pulse (τon)...
+[2025-05-13 19:45:05]   Applying stress level 'max' for 5s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:45:11]     stress-ng process 191253 finished early or was killed.
+[2025-05-13 19:45:11]   Stress level 'max' application finished.
+[2025-05-13 19:45:11]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:45:11]     Using perf stat with CSV output.
+[2025-05-13 19:45:31]     Sysbench score: 3323.30 events/sec
+[2025-05-13 19:45:31]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:45:31]     DEBUG: For IPC calc: instructions_val='76361402148', cycles_val='214885503017'
+[2025-05-13 19:45:31]     Perf Metrics: IPC=N/A, L1D Misses=5622142, LLC Misses=120913, Branch Misses=233251904
+[2025-05-13 19:45:31]   Running mbw memory benchmark...
+[2025-05-13 19:45:38]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:45:38]     MBW Score: 7612.42 MB/s
+[2025-05-13 19:45:38]   Checking ECC errors...
+[2025-05-13 19:45:38]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:45:38]   Pulse End: Temp=44.0C, Freq=2700000KHz, IPC=N/A, MBW=7612.42
+[2025-05-13 19:45:38] Neuron Cycle 4/5: Recovery phase (τoff - Leaking)...
+[2025-05-13 19:45:43]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:45:44]     Using perf stat with CSV output.
+[2025-05-13 19:46:04]     Sysbench score: 3322.84 events/sec
+[2025-05-13 19:46:04]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:46:04]     DEBUG: For IPC calc: instructions_val='76426396639', cycles_val='215221679168'
+[2025-05-13 19:46:04]     Perf Metrics: IPC=N/A, L1D Misses=4872544, LLC Misses=114236, Branch Misses=238073570
+[2025-05-13 19:46:04]   Running mbw memory benchmark...
+[2025-05-13 19:46:11]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:46:11]     MBW Score: 7724.88 MB/s
+[2025-05-13 19:46:11]   Checking ECC errors...
+[2025-05-13 19:46:11]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:46:11]   Recovery End: Temp=43.0C, Freq=2700000KHz, IPC=N/A, MBW=7724.88
+[2025-05-13 19:46:11] Neuron Cycle 5/5: Applying Pulse (τon)...
+[2025-05-13 19:46:11]   Applying stress level 'max' for 5s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:46:17]     stress-ng process 191945 finished early or was killed.
+[2025-05-13 19:46:17]   Stress level 'max' application finished.
+[2025-05-13 19:46:17]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:46:17]     Using perf stat with CSV output.
+[2025-05-13 19:46:37]     Sysbench score: 3325.36 events/sec
+[2025-05-13 19:46:37]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:46:37]     DEBUG: For IPC calc: instructions_val='76317950942', cycles_val='214935911782'
+[2025-05-13 19:46:37]     Perf Metrics: IPC=N/A, L1D Misses=5405656, LLC Misses=114585, Branch Misses=235584460
+[2025-05-13 19:46:37]   Running mbw memory benchmark...
+[2025-05-13 19:46:44]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:46:44]     MBW Score: 7771.00 MB/s
+[2025-05-13 19:46:44]   Checking ECC errors...
+[2025-05-13 19:46:44]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:46:44]   Pulse End: Temp=43.0C, Freq=2700000KHz, IPC=N/A, MBW=7771.00
+[2025-05-13 19:46:44] Neuron Cycle 5/5: Recovery phase (τoff - Leaking)...
+[2025-05-13 19:46:49]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:46:49]     Using perf stat with CSV output.
+[2025-05-13 19:47:09]     Sysbench score: 3322.77 events/sec
+[2025-05-13 19:47:09]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:47:09]     DEBUG: For IPC calc: instructions_val='76381217881', cycles_val='215135935664'
+[2025-05-13 19:47:09]     Perf Metrics: IPC=N/A, L1D Misses=5260305, LLC Misses=119745, Branch Misses=239244216
+[2025-05-13 19:47:09]   Running mbw memory benchmark...
+[2025-05-13 19:47:17]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:47:17]     MBW Score: 7762.20 MB/s
+[2025-05-13 19:47:17]   Checking ECC errors...
+[2025-05-13 19:47:17]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:47:17]   Recovery End: Temp=43.0C, Freq=2700000KHz, IPC=N/A, MBW=7762.20
+[2025-05-13 19:47:17] [✓ NEURON MODE COMPLETED]
+[2025-05-13 19:47:17] \n[3] SYNAPSE MODE TEST (Short-Term Plasticity Analogy)
+[2025-05-13 19:47:17] \nShort-Term Cycle 1/2: Baseline for cycle...
+[2025-05-13 19:47:18]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:47:18]     Using perf stat with CSV output.
+[2025-05-13 19:47:38]     Sysbench score: 3325.07 events/sec
+[2025-05-13 19:47:38]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:47:38]     DEBUG: For IPC calc: instructions_val='76366101560', cycles_val='215088021413'
+[2025-05-13 19:47:38]     Perf Metrics: IPC=N/A, L1D Misses=5069568, LLC Misses=116033, Branch Misses=239433097
+[2025-05-13 19:47:38]   Running mbw memory benchmark...
+[2025-05-13 19:47:46]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:47:46]     MBW Score: 7687.44 MB/s
+[2025-05-13 19:47:46]   Checking ECC errors...
+[2025-05-13 19:47:46]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:47:46]   Potentiation Pulse 1/3...
+[2025-05-13 19:47:46]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:47:47]     stress-ng process 192884 finished early or was killed.
+[2025-05-13 19:47:47]   Stress level 'high' application finished.
+[2025-05-13 19:47:48]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:47:48]     Using perf stat with CSV output.
+[2025-05-13 19:48:08]     Sysbench score: 3331.32 events/sec
+[2025-05-13 19:48:08]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:48:08]     DEBUG: For IPC calc: instructions_val='76349349457', cycles_val='215093132687'
+[2025-05-13 19:48:08]     Perf Metrics: IPC=N/A, L1D Misses=5492941, LLC Misses=114584, Branch Misses=241128671
+[2025-05-13 19:48:08]   Running mbw memory benchmark...
+[2025-05-13 19:48:16]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:48:16]     MBW Score: 7721.45 MB/s
+[2025-05-13 19:48:16]   Checking ECC errors...
+[2025-05-13 19:48:16]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:48:16]   Potentiation Pulse 2/3...
+[2025-05-13 19:48:16]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:48:17]     stress-ng process 193139 finished early or was killed.
+[2025-05-13 19:48:17]   Stress level 'high' application finished.
+[2025-05-13 19:48:18]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:48:18]     Using perf stat with CSV output.
+[2025-05-13 19:48:38]     Sysbench score: 3323.32 events/sec
+[2025-05-13 19:48:38]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:48:38]     DEBUG: For IPC calc: instructions_val='76268062603', cycles_val='214768424002'
+[2025-05-13 19:48:38]     Perf Metrics: IPC=N/A, L1D Misses=5464785, LLC Misses=126614, Branch Misses=236639859
+[2025-05-13 19:48:38]   Running mbw memory benchmark...
+[2025-05-13 19:48:46]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:48:46]     MBW Score: 7656.33 MB/s
+[2025-05-13 19:48:46]   Checking ECC errors...
+[2025-05-13 19:48:46]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:48:46]   Potentiation Pulse 3/3...
+[2025-05-13 19:48:46]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:48:47]     stress-ng process 193405 finished early or was killed.
+[2025-05-13 19:48:47]   Stress level 'high' application finished.
+[2025-05-13 19:48:48]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:48:48]     Using perf stat with CSV output.
+[2025-05-13 19:49:09]     Sysbench score: 3326.70 events/sec
+[2025-05-13 19:49:09]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:49:09]     DEBUG: For IPC calc: instructions_val='76316214075', cycles_val='214842460930'
+[2025-05-13 19:49:09]     Perf Metrics: IPC=N/A, L1D Misses=5590139, LLC Misses=118542, Branch Misses=236454023
+[2025-05-13 19:49:09]   Running mbw memory benchmark...
+[2025-05-13 19:49:16]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:49:16]     MBW Score: 7760.19 MB/s
+[2025-05-13 19:49:16]   Checking ECC errors...
+[2025-05-13 19:49:16]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:49:16]   Depression Pulse 1/3...
+[2025-05-13 19:49:16]   Applying IDLE state for 3s.
+[2025-05-13 19:49:20]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:49:20]     Using perf stat with CSV output.
+[2025-05-13 19:49:41]     Sysbench score: 3327.34 events/sec
+[2025-05-13 19:49:41]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:49:41]     DEBUG: For IPC calc: instructions_val='76407963880', cycles_val='215160912338'
+[2025-05-13 19:49:41]     Perf Metrics: IPC=N/A, L1D Misses=5179756, LLC Misses=121334, Branch Misses=238114048
+[2025-05-13 19:49:41]   Running mbw memory benchmark...
+[2025-05-13 19:49:48]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:49:48]     MBW Score: 7623.68 MB/s
+[2025-05-13 19:49:48]   Checking ECC errors...
+[2025-05-13 19:49:48]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:49:48]   Depression Pulse 2/3...
+[2025-05-13 19:49:48]   Applying IDLE state for 3s.
+[2025-05-13 19:49:52]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:49:53]     Using perf stat with CSV output.
+[2025-05-13 19:50:13]     Sysbench score: 3322.99 events/sec
+[2025-05-13 19:50:13]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:50:13]     DEBUG: For IPC calc: instructions_val='76425963353', cycles_val='215134401590'
+[2025-05-13 19:50:13]     Perf Metrics: IPC=N/A, L1D Misses=5338030, LLC Misses=113504, Branch Misses=234909192
+[2025-05-13 19:50:13]   Running mbw memory benchmark...
+[2025-05-13 19:50:20]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:50:20]     MBW Score: 7611.50 MB/s
+[2025-05-13 19:50:20]   Checking ECC errors...
+[2025-05-13 19:50:20]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:50:20]   Depression Pulse 3/3...
+[2025-05-13 19:50:20]   Applying IDLE state for 3s.
+[2025-05-13 19:50:24]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:50:25]     Using perf stat with CSV output.
+[2025-05-13 19:50:45]     Sysbench score: 3322.88 events/sec
+[2025-05-13 19:50:45]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:50:45]     DEBUG: For IPC calc: instructions_val='76345905301', cycles_val='215080645288'
+[2025-05-13 19:50:45]     Perf Metrics: IPC=N/A, L1D Misses=5357733, LLC Misses=116775, Branch Misses=242603968
+[2025-05-13 19:50:45]   Running mbw memory benchmark...
+[2025-05-13 19:50:52]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:50:52]     MBW Score: 7733.98 MB/s
+[2025-05-13 19:50:52]   Checking ECC errors...
+[2025-05-13 19:50:52]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:50:52]   Forgetting/Relaxation Phase (20s)...
+[2025-05-13 19:50:53]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:50:54]     Using perf stat with CSV output.
+[2025-05-13 19:51:14]     Sysbench score: 3321.32 events/sec
+[2025-05-13 19:51:14]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:51:14]     DEBUG: For IPC calc: instructions_val='76362550234', cycles_val='215207670268'
+[2025-05-13 19:51:14]     Perf Metrics: IPC=N/A, L1D Misses=5446313, LLC Misses=116701, Branch Misses=244244284
+[2025-05-13 19:51:14]   Running mbw memory benchmark...
+[2025-05-13 19:51:21]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:51:21]     MBW Score: 7763.40 MB/s
+[2025-05-13 19:51:21]   Checking ECC errors...
+[2025-05-13 19:51:21]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:51:22]   Forgetting phase complete.
+[2025-05-13 19:51:22] \nShort-Term Cycle 2/2: Baseline for cycle...
+[2025-05-13 19:51:24]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:51:24]     Using perf stat with CSV output.
+[2025-05-13 19:51:44]     Sysbench score: 3324.16 events/sec
+[2025-05-13 19:51:44]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:51:44]     DEBUG: For IPC calc: instructions_val='76382873910', cycles_val='215177220265'
+[2025-05-13 19:51:44]     Perf Metrics: IPC=N/A, L1D Misses=5894041, LLC Misses=120852, Branch Misses=241052074
+[2025-05-13 19:51:44]   Running mbw memory benchmark...
+[2025-05-13 19:51:51]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:51:51]     MBW Score: 7708.24 MB/s
+[2025-05-13 19:51:51]   Checking ECC errors...
+[2025-05-13 19:51:51]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:51:51]   Potentiation Pulse 1/3...
+[2025-05-13 19:51:51]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:51:52]     stress-ng process 195013 finished early or was killed.
+[2025-05-13 19:51:52]   Stress level 'high' application finished.
+[2025-05-13 19:51:54]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:51:54]     Using perf stat with CSV output.
+[2025-05-13 19:52:14]     Sysbench score: 3323.49 events/sec
+[2025-05-13 19:52:14]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:52:14]     DEBUG: For IPC calc: instructions_val='76357483472', cycles_val='215198272214'
+[2025-05-13 19:52:14]     Perf Metrics: IPC=N/A, L1D Misses=5095379, LLC Misses=112584, Branch Misses=244516474
+[2025-05-13 19:52:14]   Running mbw memory benchmark...
+[2025-05-13 19:52:21]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:52:22]     MBW Score: 7740.30 MB/s
+[2025-05-13 19:52:22]   Checking ECC errors...
+[2025-05-13 19:52:22]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:52:22]   Potentiation Pulse 2/3...
+[2025-05-13 19:52:22]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:52:23]     stress-ng process 195268 finished early or was killed.
+[2025-05-13 19:52:23]   Stress level 'high' application finished.
+[2025-05-13 19:52:24]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:52:24]     Using perf stat with CSV output.
+[2025-05-13 19:52:44]     Sysbench score: 3320.64 events/sec
+[2025-05-13 19:52:44]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:52:44]     DEBUG: For IPC calc: instructions_val='76346972714', cycles_val='215010467603'
+[2025-05-13 19:52:44]     Perf Metrics: IPC=N/A, L1D Misses=5383132, LLC Misses=116174, Branch Misses=238125556
+[2025-05-13 19:52:44]   Running mbw memory benchmark...
+[2025-05-13 19:52:52]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:52:52]     MBW Score: 7671.66 MB/s
+[2025-05-13 19:52:52]   Checking ECC errors...
+[2025-05-13 19:52:52]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:52:52]   Potentiation Pulse 3/3...
+[2025-05-13 19:52:52]   Applying stress level 'high' for 3s: --cpu 8 --matrix 0 --vm 8 --vm-bytes 512M --cpu-method int64,float
+[2025-05-13 19:52:53]     stress-ng process 195551 finished early or was killed.
+[2025-05-13 19:52:53]   Stress level 'high' application finished.
+[2025-05-13 19:52:54]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:52:54]     Using perf stat with CSV output.
+[2025-05-13 19:53:14]     Sysbench score: 3322.52 events/sec
+[2025-05-13 19:53:14]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:53:14]     DEBUG: For IPC calc: instructions_val='76349586632', cycles_val='215199183157'
+[2025-05-13 19:53:14]     Perf Metrics: IPC=N/A, L1D Misses=5037430, LLC Misses=119699, Branch Misses=245348499
+[2025-05-13 19:53:14]   Running mbw memory benchmark...
+[2025-05-13 19:53:22]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:53:22]     MBW Score: 7755.00 MB/s
+[2025-05-13 19:53:22]   Checking ECC errors...
+[2025-05-13 19:53:22]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:53:22]   Depression Pulse 1/3...
+[2025-05-13 19:53:22]   Applying IDLE state for 3s.
+[2025-05-13 19:53:26]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:53:26]     Using perf stat with CSV output.
+[2025-05-13 19:53:46]     Sysbench score: 3319.38 events/sec
+[2025-05-13 19:53:46]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:53:46]     DEBUG: For IPC calc: instructions_val='76409206085', cycles_val='215118717217'
+[2025-05-13 19:53:46]     Perf Metrics: IPC=N/A, L1D Misses=5315287, LLC Misses=123396, Branch Misses=236148421
+[2025-05-13 19:53:46]   Running mbw memory benchmark...
+[2025-05-13 19:53:54]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:53:54]     MBW Score: 7753.99 MB/s
+[2025-05-13 19:53:54]   Checking ECC errors...
+[2025-05-13 19:53:54]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:53:54]   Depression Pulse 2/3...
+[2025-05-13 19:53:54]   Applying IDLE state for 3s.
+[2025-05-13 19:53:58]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:53:58]     Using perf stat with CSV output.
+[2025-05-13 19:54:18]     Sysbench score: 3325.15 events/sec
+[2025-05-13 19:54:18]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:54:18]     DEBUG: For IPC calc: instructions_val='76420191441', cycles_val='215113550126'
+[2025-05-13 19:54:18]     Perf Metrics: IPC=N/A, L1D Misses=5367172, LLC Misses=123630, Branch Misses=235189315
+[2025-05-13 19:54:18]   Running mbw memory benchmark...
+[2025-05-13 19:54:26]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:54:26]     MBW Score: 7738.45 MB/s
+[2025-05-13 19:54:26]   Checking ECC errors...
+[2025-05-13 19:54:26]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:54:26]   Depression Pulse 3/3...
+[2025-05-13 19:54:26]   Applying IDLE state for 3s.
+[2025-05-13 19:54:30]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:54:30]     Using perf stat with CSV output.
+[2025-05-13 19:54:50]     Sysbench score: 3324.26 events/sec
+[2025-05-13 19:54:50]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:54:50]     DEBUG: For IPC calc: instructions_val='76407230249', cycles_val='215104086898'
+[2025-05-13 19:54:50]     Perf Metrics: IPC=N/A, L1D Misses=5303516, LLC Misses=115851, Branch Misses=236096341
+[2025-05-13 19:54:50]   Running mbw memory benchmark...
+[2025-05-13 19:54:58]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:54:58]     MBW Score: 7611.59 MB/s
+[2025-05-13 19:54:58]   Checking ECC errors...
+[2025-05-13 19:54:58]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:54:58]   Forgetting/Relaxation Phase (20s)...
+[2025-05-13 19:54:59]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:54:59]     Using perf stat with CSV output.
+[2025-05-13 19:55:19]     Sysbench score: 3322.81 events/sec
+[2025-05-13 19:55:19]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:55:19]     DEBUG: For IPC calc: instructions_val='76423963836', cycles_val='215187058627'
+[2025-05-13 19:55:19]     Perf Metrics: IPC=N/A, L1D Misses=5225221, LLC Misses=112410, Branch Misses=237474696
+[2025-05-13 19:55:19]   Running mbw memory benchmark...
+[2025-05-13 19:55:27]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:55:27]     MBW Score: 7683.46 MB/s
+[2025-05-13 19:55:27]   Checking ECC errors...
+[2025-05-13 19:55:27]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:55:28]   Forgetting phase complete.
+[2025-05-13 19:55:28] [✓] SYNAPSE SHORT-TERM MODE COMPLETED.
+[2025-05-13 19:55:28] \n[4] SYNAPSE MODE TEST (Long-Term Plasticity Analogy)
+[2025-05-13 19:55:28] Long-Term Cycle 1/10: Potentiation...
+[2025-05-13 19:55:28]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:55:37]     Timeout reached for stress level 'max', ensuring process 196898 is stopped.
+[2025-05-13 19:55:37]   Stress level 'max' application finished.
+[2025-05-13 19:55:38]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:55:39]     Using perf stat with CSV output.
+[2025-05-13 19:55:59]     Sysbench score: 3322.58 events/sec
+[2025-05-13 19:55:59]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:55:59]     DEBUG: For IPC calc: instructions_val='76421961579', cycles_val='214979498515'
+[2025-05-13 19:55:59]     Perf Metrics: IPC=N/A, L1D Misses=5241834, LLC Misses=116745, Branch Misses=231354672
+[2025-05-13 19:55:59]   Running mbw memory benchmark...
+[2025-05-13 19:56:06]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:56:06]     MBW Score: 7762.95 MB/s
+[2025-05-13 19:56:06]   Checking ECC errors...
+[2025-05-13 19:56:06]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:56:06] Long-Term Cycle 1/10: Depression...
+[2025-05-13 19:56:06]   Applying IDLE state for 8s.
+[2025-05-13 19:56:15]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:56:16]     Using perf stat with CSV output.
+[2025-05-13 19:56:36]     Sysbench score: 3321.61 events/sec
+[2025-05-13 19:56:36]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:56:36]     DEBUG: For IPC calc: instructions_val='76356538152', cycles_val='215003445791'
+[2025-05-13 19:56:36]     Perf Metrics: IPC=N/A, L1D Misses=5560494, LLC Misses=121710, Branch Misses=236877316
+[2025-05-13 19:56:36]   Running mbw memory benchmark...
+[2025-05-13 19:56:43]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:56:43]     MBW Score: 7731.80 MB/s
+[2025-05-13 19:56:43]   Checking ECC errors...
+[2025-05-13 19:56:43]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:56:43] Long-Term Cycle 2/10: Potentiation...
+[2025-05-13 19:56:43]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:56:52]     stress-ng process 197661 finished early or was killed.
+[2025-05-13 19:56:52]   Stress level 'max' application finished.
+[2025-05-13 19:56:53]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:56:53]     Using perf stat with CSV output.
+[2025-05-13 19:57:13]     Sysbench score: 3323.36 events/sec
+[2025-05-13 19:57:13]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:57:13]     DEBUG: For IPC calc: instructions_val='76443867736', cycles_val='215053288862'
+[2025-05-13 19:57:14]     Perf Metrics: IPC=N/A, L1D Misses=5377068, LLC Misses=119128, Branch Misses=230362736
+[2025-05-13 19:57:14]   Running mbw memory benchmark...
+[2025-05-13 19:57:21]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:57:21]     MBW Score: 7725.65 MB/s
+[2025-05-13 19:57:21]   Checking ECC errors...
+[2025-05-13 19:57:21]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:57:21] Long-Term Cycle 2/10: Depression...
+[2025-05-13 19:57:21]   Applying IDLE state for 8s.
+[2025-05-13 19:57:30]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:57:30]     Using perf stat with CSV output.
+[2025-05-13 19:57:50]     Sysbench score: 3322.72 events/sec
+[2025-05-13 19:57:50]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:57:50]     DEBUG: For IPC calc: instructions_val='76359752294', cycles_val='214883808749'
+[2025-05-13 19:57:50]     Perf Metrics: IPC=N/A, L1D Misses=5646910, LLC Misses=122195, Branch Misses=231764499
+[2025-05-13 19:57:50]   Running mbw memory benchmark...
+[2025-05-13 19:57:58]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:57:58]     MBW Score: 7736.07 MB/s
+[2025-05-13 19:57:58]   Checking ECC errors...
+[2025-05-13 19:57:58]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:57:58]   LTP Cycle 2/10 completed.
+[2025-05-13 19:57:58] Long-Term Cycle 3/10: Potentiation...
+[2025-05-13 19:57:58]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:58:07]     stress-ng process 198417 finished early or was killed.
+[2025-05-13 19:58:07]   Stress level 'max' application finished.
+[2025-05-13 19:58:08]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:58:08]     Using perf stat with CSV output.
+[2025-05-13 19:58:28]     Sysbench score: 3324.08 events/sec
+[2025-05-13 19:58:28]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:58:28]     DEBUG: For IPC calc: instructions_val='76413526171', cycles_val='215091699443'
+[2025-05-13 19:58:28]     Perf Metrics: IPC=N/A, L1D Misses=5012707, LLC Misses=112608, Branch Misses=234965962
+[2025-05-13 19:58:28]   Running mbw memory benchmark...
+[2025-05-13 19:58:36]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:58:36]     MBW Score: 7735.34 MB/s
+[2025-05-13 19:58:36]   Checking ECC errors...
+[2025-05-13 19:58:36]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:58:36] Long-Term Cycle 3/10: Depression...
+[2025-05-13 19:58:36]   Applying IDLE state for 8s.
+[2025-05-13 19:58:45]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:58:45]     Using perf stat with CSV output.
+[2025-05-13 19:59:05]     Sysbench score: 3322.47 events/sec
+[2025-05-13 19:59:05]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:59:05]     DEBUG: For IPC calc: instructions_val='76373064938', cycles_val='214991358903'
+[2025-05-13 19:59:05]     Perf Metrics: IPC=N/A, L1D Misses=5247290, LLC Misses=125286, Branch Misses=234629660
+[2025-05-13 19:59:05]   Running mbw memory benchmark...
+[2025-05-13 19:59:13]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:59:13]     MBW Score: 7766.30 MB/s
+[2025-05-13 19:59:13]   Checking ECC errors...
+[2025-05-13 19:59:13]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:59:13] Long-Term Cycle 4/10: Potentiation...
+[2025-05-13 19:59:13]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 19:59:22]     Timeout reached for stress level 'max', ensuring process 199189 is stopped.
+[2025-05-13 19:59:22]   Stress level 'max' application finished.
+[2025-05-13 19:59:23]   Running sysbench CPU benchmark with perf...
+[2025-05-13 19:59:24]     Using perf stat with CSV output.
+[2025-05-13 19:59:44]     Sysbench score: 3324.62 events/sec
+[2025-05-13 19:59:44]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 19:59:44]     DEBUG: For IPC calc: instructions_val='76447068364', cycles_val='215126639954'
+[2025-05-13 19:59:44]     Perf Metrics: IPC=N/A, L1D Misses=5523416, LLC Misses=112273, Branch Misses=232939359
+[2025-05-13 19:59:44]   Running mbw memory benchmark...
+[2025-05-13 19:59:51]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 19:59:51]     MBW Score: 7656.80 MB/s
+[2025-05-13 19:59:51]   Checking ECC errors...
+[2025-05-13 19:59:51]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 19:59:51] Long-Term Cycle 4/10: Depression...
+[2025-05-13 19:59:51]   Applying IDLE state for 8s.
+[2025-05-13 20:00:01]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:00:01]     Using perf stat with CSV output.
+[2025-05-13 20:00:21]     Sysbench score: 3322.62 events/sec
+[2025-05-13 20:00:21]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:00:21]     DEBUG: For IPC calc: instructions_val='76381475177', cycles_val='215008135507'
+[2025-05-13 20:00:21]     Perf Metrics: IPC=N/A, L1D Misses=5301736, LLC Misses=123695, Branch Misses=234787208
+[2025-05-13 20:00:21]   Running mbw memory benchmark...
+[2025-05-13 20:00:28]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:00:28]     MBW Score: 7723.27 MB/s
+[2025-05-13 20:00:28]   Checking ECC errors...
+[2025-05-13 20:00:28]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:00:28]   LTP Cycle 4/10 completed.
+[2025-05-13 20:00:28] Long-Term Cycle 5/10: Potentiation...
+[2025-05-13 20:00:28]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:00:37]     stress-ng process 199953 finished early or was killed.
+[2025-05-13 20:00:37]   Stress level 'max' application finished.
+[2025-05-13 20:00:38]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:00:39]     Using perf stat with CSV output.
+[2025-05-13 20:00:59]     Sysbench score: 3325.89 events/sec
+[2025-05-13 20:00:59]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:00:59]     DEBUG: For IPC calc: instructions_val='76340794604', cycles_val='214970156971'
+[2025-05-13 20:00:59]     Perf Metrics: IPC=N/A, L1D Misses=5705033, LLC Misses=121192, Branch Misses=239016664
+[2025-05-13 20:00:59]   Running mbw memory benchmark...
+[2025-05-13 20:01:06]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:01:06]     MBW Score: 7732.91 MB/s
+[2025-05-13 20:01:06]   Checking ECC errors...
+[2025-05-13 20:01:06]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:01:06] Long-Term Cycle 5/10: Depression...
+[2025-05-13 20:01:06]   Applying IDLE state for 8s.
+[2025-05-13 20:01:15]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:01:16]     Using perf stat with CSV output.
+[2025-05-13 20:01:36]     Sysbench score: 3324.92 events/sec
+[2025-05-13 20:01:36]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:01:36]     DEBUG: For IPC calc: instructions_val='76339499027', cycles_val='215003708028'
+[2025-05-13 20:01:36]     Perf Metrics: IPC=N/A, L1D Misses=5483677, LLC Misses=115783, Branch Misses=238609674
+[2025-05-13 20:01:36]   Running mbw memory benchmark...
+[2025-05-13 20:01:43]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:01:43]     MBW Score: 7768.04 MB/s
+[2025-05-13 20:01:43]   Checking ECC errors...
+[2025-05-13 20:01:43]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:01:43] Long-Term Cycle 6/10: Potentiation...
+[2025-05-13 20:01:43]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:01:52]     stress-ng process 200715 finished early or was killed.
+[2025-05-13 20:01:52]   Stress level 'max' application finished.
+[2025-05-13 20:01:53]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:01:54]     Using perf stat with CSV output.
+[2025-05-13 20:02:14]     Sysbench score: 3324.86 events/sec
+[2025-05-13 20:02:14]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:02:14]     DEBUG: For IPC calc: instructions_val='76363195688', cycles_val='214939404165'
+[2025-05-13 20:02:14]     Perf Metrics: IPC=N/A, L1D Misses=5312044, LLC Misses=123080, Branch Misses=234182615
+[2025-05-13 20:02:14]   Running mbw memory benchmark...
+[2025-05-13 20:02:21]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:02:21]     MBW Score: 7729.70 MB/s
+[2025-05-13 20:02:21]   Checking ECC errors...
+[2025-05-13 20:02:21]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:02:21] Long-Term Cycle 6/10: Depression...
+[2025-05-13 20:02:21]   Applying IDLE state for 8s.
+[2025-05-13 20:02:30]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:02:31]     Using perf stat with CSV output.
+[2025-05-13 20:02:51]     Sysbench score: 3325.19 events/sec
+[2025-05-13 20:02:51]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:02:51]     DEBUG: For IPC calc: instructions_val='76279153757', cycles_val='214736964961'
+[2025-05-13 20:02:51]     Perf Metrics: IPC=N/A, L1D Misses=5624349, LLC Misses=116371, Branch Misses=235981827
+[2025-05-13 20:02:51]   Running mbw memory benchmark...
+[2025-05-13 20:02:58]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:02:58]     MBW Score: 7728.92 MB/s
+[2025-05-13 20:02:58]   Checking ECC errors...
+[2025-05-13 20:02:58]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:02:58]   LTP Cycle 6/10 completed.
+[2025-05-13 20:02:58] Long-Term Cycle 7/10: Potentiation...
+[2025-05-13 20:02:58]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:03:07]     stress-ng process 201480 finished early or was killed.
+[2025-05-13 20:03:07]   Stress level 'max' application finished.
+[2025-05-13 20:03:08]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:03:09]     Using perf stat with CSV output.
+[2025-05-13 20:03:29]     Sysbench score: 3327.70 events/sec
+[2025-05-13 20:03:29]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:03:29]     DEBUG: For IPC calc: instructions_val='76414448691', cycles_val='214974786154'
+[2025-05-13 20:03:29]     Perf Metrics: IPC=N/A, L1D Misses=5538383, LLC Misses=116498, Branch Misses=230304447
+[2025-05-13 20:03:29]   Running mbw memory benchmark...
+[2025-05-13 20:03:36]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:03:36]     MBW Score: 7726.69 MB/s
+[2025-05-13 20:03:36]   Checking ECC errors...
+[2025-05-13 20:03:36]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:03:36] Long-Term Cycle 7/10: Depression...
+[2025-05-13 20:03:36]   Applying IDLE state for 8s.
+[2025-05-13 20:03:45]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:03:46]     Using perf stat with CSV output.
+[2025-05-13 20:04:06]     Sysbench score: 3324.15 events/sec
+[2025-05-13 20:04:06]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:04:06]     DEBUG: For IPC calc: instructions_val='76251884293', cycles_val='214774791756'
+[2025-05-13 20:04:06]     Perf Metrics: IPC=N/A, L1D Misses=5834079, LLC Misses=116936, Branch Misses=240453064
+[2025-05-13 20:04:06]   Running mbw memory benchmark...
+[2025-05-13 20:04:13]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:04:13]     MBW Score: 7726.77 MB/s
+[2025-05-13 20:04:13]   Checking ECC errors...
+[2025-05-13 20:04:13]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:04:13] Long-Term Cycle 8/10: Potentiation...
+[2025-05-13 20:04:13]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:04:22]     stress-ng process 202258 finished early or was killed.
+[2025-05-13 20:04:22]   Stress level 'max' application finished.
+[2025-05-13 20:04:23]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:04:24]     Using perf stat with CSV output.
+[2025-05-13 20:04:44]     Sysbench score: 3325.97 events/sec
+[2025-05-13 20:04:44]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:04:44]     DEBUG: For IPC calc: instructions_val='76397017139', cycles_val='214891595833'
+[2025-05-13 20:04:44]     Perf Metrics: IPC=N/A, L1D Misses=5864969, LLC Misses=127857, Branch Misses=228771305
+[2025-05-13 20:04:44]   Running mbw memory benchmark...
+[2025-05-13 20:04:51]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:04:51]     MBW Score: 7649.51 MB/s
+[2025-05-13 20:04:51]   Checking ECC errors...
+[2025-05-13 20:04:51]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:04:51] Long-Term Cycle 8/10: Depression...
+[2025-05-13 20:04:51]   Applying IDLE state for 8s.
+[2025-05-13 20:05:00]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:05:01]     Using perf stat with CSV output.
+[2025-05-13 20:05:21]     Sysbench score: 3324.58 events/sec
+[2025-05-13 20:05:21]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:05:21]     DEBUG: For IPC calc: instructions_val='76344702799', cycles_val='214850438328'
+[2025-05-13 20:05:21]     Perf Metrics: IPC=N/A, L1D Misses=5688595, LLC Misses=118366, Branch Misses=231936508
+[2025-05-13 20:05:21]   Running mbw memory benchmark...
+[2025-05-13 20:05:28]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:05:28]     MBW Score: 7645.95 MB/s
+[2025-05-13 20:05:28]   Checking ECC errors...
+[2025-05-13 20:05:28]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:05:28]   LTP Cycle 8/10 completed.
+[2025-05-13 20:05:28] Long-Term Cycle 9/10: Potentiation...
+[2025-05-13 20:05:28]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:05:37]     stress-ng process 203033 finished early or was killed.
+[2025-05-13 20:05:37]   Stress level 'max' application finished.
+[2025-05-13 20:05:38]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:05:39]     Using perf stat with CSV output.
+[2025-05-13 20:05:59]     Sysbench score: 3322.73 events/sec
+[2025-05-13 20:05:59]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:05:59]     DEBUG: For IPC calc: instructions_val='76388189904', cycles_val='214977917807'
+[2025-05-13 20:05:59]     Perf Metrics: IPC=N/A, L1D Misses=5444634, LLC Misses=129681, Branch Misses=233060910
+[2025-05-13 20:05:59]   Running mbw memory benchmark...
+[2025-05-13 20:06:06]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:06:06]     MBW Score: 7567.56 MB/s
+[2025-05-13 20:06:06]   Checking ECC errors...
+[2025-05-13 20:06:06]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:06:07] Long-Term Cycle 9/10: Depression...
+[2025-05-13 20:06:07]   Applying IDLE state for 8s.
+[2025-05-13 20:06:16]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:06:16]     Using perf stat with CSV output.
+[2025-05-13 20:06:36]     Sysbench score: 3321.31 events/sec
+[2025-05-13 20:06:36]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:06:36]     DEBUG: For IPC calc: instructions_val='76325967836', cycles_val='214925246434'
+[2025-05-13 20:06:36]     Perf Metrics: IPC=N/A, L1D Misses=5624330, LLC Misses=116791, Branch Misses=237076984
+[2025-05-13 20:06:36]   Running mbw memory benchmark...
+[2025-05-13 20:06:43]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:06:43]     MBW Score: 7605.72 MB/s
+[2025-05-13 20:06:43]   Checking ECC errors...
+[2025-05-13 20:06:44]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:06:44] Long-Term Cycle 10/10: Potentiation...
+[2025-05-13 20:06:44]   Applying stress level 'max' for 8s: --cpu 8 --matrix 8 --vm 8 --vm-bytes 1G --cpu-method all
+[2025-05-13 20:06:52]     stress-ng process 203802 finished early or was killed.
+[2025-05-13 20:06:52]   Stress level 'max' application finished.
+[2025-05-13 20:06:54]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:06:54]     Using perf stat with CSV output.
+[2025-05-13 20:07:14]     Sysbench score: 3330.28 events/sec
+[2025-05-13 20:07:14]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:07:14]     DEBUG: For IPC calc: instructions_val='76362028020', cycles_val='214911312010'
+[2025-05-13 20:07:14]     Perf Metrics: IPC=N/A, L1D Misses=5478048, LLC Misses=115599, Branch Misses=234997572
+[2025-05-13 20:07:14]   Running mbw memory benchmark...
+[2025-05-13 20:07:21]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:07:21]     MBW Score: 7601.04 MB/s
+[2025-05-13 20:07:21]   Checking ECC errors...
+[2025-05-13 20:07:21]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:07:21] Long-Term Cycle 10/10: Depression...
+[2025-05-13 20:07:21]   Applying IDLE state for 8s.
+[2025-05-13 20:07:31]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:07:31]     Using perf stat with CSV output.
+[2025-05-13 20:07:51]     Sysbench score: 3323.98 events/sec
+[2025-05-13 20:07:51]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:07:51]     DEBUG: For IPC calc: instructions_val='76384572262', cycles_val='214923924677'
+[2025-05-13 20:07:51]     Perf Metrics: IPC=N/A, L1D Misses=5527772, LLC Misses=117149, Branch Misses=230960020
+[2025-05-13 20:07:51]   Running mbw memory benchmark...
+[2025-05-13 20:07:58]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:07:58]     MBW Score: 7652.10 MB/s
+[2025-05-13 20:07:58]   Checking ECC errors...
+[2025-05-13 20:07:58]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:07:59]   LTP Cycle 10/10 completed.
+[2025-05-13 20:07:59] LTP Cycling complete. Starting Retention Test (30s)...
+[2025-05-13 20:08:00]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:08:00]     Using perf stat with CSV output.
+[2025-05-13 20:08:20]     Sysbench score: 3325.08 events/sec
+[2025-05-13 20:08:20]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:08:20]     DEBUG: For IPC calc: instructions_val='76394617894', cycles_val='215139876344'
+[2025-05-13 20:08:20]     Perf Metrics: IPC=N/A, L1D Misses=5499411, LLC Misses=114364, Branch Misses=238691170
+[2025-05-13 20:08:20]   Running mbw memory benchmark...
+[2025-05-13 20:08:28]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:08:28]     MBW Score: 7612.49 MB/s
+[2025-05-13 20:08:28]   Checking ECC errors...
+[2025-05-13 20:08:28]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:08:39]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:08:39]     Using perf stat with CSV output.
+[2025-05-13 20:08:59]     Sysbench score: 3322.51 events/sec
+[2025-05-13 20:08:59]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:08:59]     DEBUG: For IPC calc: instructions_val='76322965994', cycles_val='215001184480'
+[2025-05-13 20:08:59]     Perf Metrics: IPC=N/A, L1D Misses=5695357, LLC Misses=115663, Branch Misses=240402359
+[2025-05-13 20:08:59]   Running mbw memory benchmark...
+[2025-05-13 20:09:07]     WARN: Failed to parse AVG line. Averaging individual MEMCPY results.
+[2025-05-13 20:09:07]     MBW Score: 7605.08 MB/s
+[2025-05-13 20:09:07]   Checking ECC errors...
+[2025-05-13 20:09:07]     WARN: EDAC kernel modules not loaded or no errors reported by edac-ctl. Skipping ECC check.
+[2025-05-13 20:09:08] Retention Test: Final Checks...
+[2025-05-13 20:09:09]   Running sysbench CPU benchmark with perf...
+[2025-05-13 20:09:09]     Using perf stat with CSV output.
+[2025-05-13 20:09:29]     Sysbench score: 3318.39 events/sec
+[2025-05-13 20:09:29]     DEBUG: Parsing perf CSV output from stress_data_20250513_194116/temp_perf_output.txt
+[2025-05-13 20:09:29]     DEBUG: For IPC calc: instructions_val='76340320238', cycles_val='214939198901'
+[2025-05-13 20:09:29]     Perf Metrics: IPC=N/A, L1D Misses=5559054, LLC Misses=121715, Branch Misses=236158509
+[2025-05-13 20:09:29] [*] Cleaning up processes and files...
+[2025-05-13 20:09:29]   Process group ID not found or is self, using pkill -P 188368
+[2025-05-13 20:09:29] [*] Resetting system state...
+[2025-05-13 20:09:29]   Attempting to set CPU governor to powersave...
+[2025-05-13 20:09:29]   Attempting to re-enable Intel P-state turbo...
+[2025-05-13 20:09:29]   Attempting to reset ASLR to default...
+[2025-05-13 20:09:29] [*] Cleanup finished.

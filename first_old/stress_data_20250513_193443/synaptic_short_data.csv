@@ -1,0 +1,1 @@
+timestamp,cycle,phase,pulse_or_elapsed,bench_score,percent_of_baseline,ipc,l1d_misses_pmc,llc_misses_pmc,branch_misses_pmc,mbw_score_mbps,ecc_ce_count,ecc_ue_count

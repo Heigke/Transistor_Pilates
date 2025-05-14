@@ -1,1 +1,0 @@
-timestamp,cycle,phase,temp,freq,recovery_time,error_detected,ipc,l1d_misses_pmc,llc_misses_pmc,branch_misses_pmc,mbw_score_mbps,ecc_ce_count,ecc_ue_count

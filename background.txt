@@ -1,0 +1,1053 @@
+Here's a breakdown of the thinking process to arrive at the simplified testing strategy:
+
+    Understand the Core Request: The user wants the "most low-level simplest way" to test the paper's effect (neural/synaptic behavior from a single transistor under unconventional biasing) using the provided shell script as a conceptual analogy. The key is "simplest," "low-level," and "lots of measurements." This means stripping down the existing complex script to its bare essentials while retaining the analogy and data collection.
+
+    Deconstruct the Paper's Core Idea (at a high level for analogy):
+        Neuron-like behavior (LIF - Leaky Integrate & Fire):
+            Apply stress (integrate).
+            If stress crosses a threshold, it "fires" (system shows a significant change).
+            It then "leaks" or recovers.
+        Synapse-like behavior (Plasticity - LTP/STP):
+            Apply repeated stress (potentiation) -> system performance changes (e.g., gets faster/slower, hotter/cooler, more/fewer errors).
+            Apply different stress or let it rest (depression/forgetting) -> performance reverts or changes further.
+            Long-term: Changes persist. Short-term: Changes fade.
+
+    Analyze the Provided Shell Script (Advanced NS-RAM System-Level Analogy Stress Suite v2.3):
+        It's already an analogy. It maps transistor dynamics to system behaviors.
+        It has distinct "Neuron" and "Synapse" modes.
+        It uses stress-ng, sysbench, perf, mbw, edac-utils for stressing and measuring.
+        It compiles custom tools (hammer, spec_havoc) for specific stress types.
+        It collects a lot of metrics: temp, freq, IPC, cache misses, MBW, ECC errors.
+        It has complex logic for different stress levels, pulse durations, cycles, etc.
+        It has detailed logging and data saving to CSVs.
+
+    Identify Simplification Targets for "Simplest Low-Level Test":
+        Reduce Modes: Focus on one analogous behavior initially. The "Neuron" mode (LIF) seems the most direct analogy for "apply stress, see if it fires, let it recover." The LTP part of the Synapse mode is also a good candidate if we want to see persistent change.
+        Reduce Stressors: Instead of multiple custom tools and complex stress-ng parameters, can we use a single, simple, controllable stressor? stress-ng with a basic CPU load is good. The custom hammer and spec_havoc are powerful but add complexity; let's defer them for a simplified test unless absolutely necessary to demonstrate some effect.
+        Reduce Metrics:
+            Essential for "Firing": CPU Temperature (increases with load), CPU Frequency (might throttle). These are "low-level" and directly measurable.
+            Essential for "Performance Change" (Synaptic Analogy): A simple benchmark score (like sysbench cpu) is good.
+            Desirable but not strictly essential for "simplest": IPC, cache misses, MBW, ECC. Let's make these optional or secondary.
+        Reduce Configuration: Minimize the number of tunable knobs. Focus on duration and intensity of stress.
+        Simplify Logic: Remove complex cycling, multiple pulse types within a mode, etc., for the first pass.
+        Retain Core Analogies:
+            Neuron (LIF):
+                "Integrate": Apply CPU stress.
+                "Fire": System reaches a high temperature/throttles frequency significantly.
+                "Leak/Recover": Remove stress, observe temperature/frequency returning to baseline.
+            Synapse (LTP - simplified):
+                "Potentiation": Apply sustained/repeated CPU stress.
+                "Measure Effect": Check if baseline performance (e.g., sysbench score) changes after the stress and a recovery period.
+
+    Drafting the Simplified "Neuron (LIF)" Test Strategy:
+        Setup:
+            Keep root check and essential package installation (stress-ng, lm-sensors, sysbench, bc). perf can be made optional for simplicity.
+            Basic logging.
+        Baseline:
+            Measure initial CPU temp & freq.
+            Optional: Measure initial sysbench cpu score.
+        "Integrate & Fire" Phase (Analogous to τon):
+            Apply a strong CPU stress using stress-ng (e.g., stress-ng --cpu $(nproc) --timeout X).
+            During stress, periodically (e.g., every second) log CPU temp & freq.
+            Define "Fire": What constitutes a "fired" state? Maybe a temp threshold or significant frequency drop. For simplicity, we can just observe the peak values during stress.
+        "Leak/Recovery" Phase (Analogous to τoff):
+            Stop stress.
+            Periodically log CPU temp & freq until they stabilize or for a fixed duration.
+        Data Collection: Log timestamp, phase (baseline, stress, recovery), temp, freq.
+        Script Simplification:
+            Remove SYNAPSE modes entirely.
+            Remove hammer, spec_havoc compilation and usage.
+            Remove RAPL, ECC, MBW for the first pass of "simplest."
+            Greatly simplify STRESS_PARAMS.
+            Simplify CSV outputs.
+
+    Drafting the Simplified "Synapse (LTP)" Test Strategy (as an alternative or follow-up):
+        Setup: Same as Neuron.
+        Baseline:
+            Measure initial sysbench cpu score, temp, freq.
+        "Potentiation" Phase:
+            Apply sustained and strong CPU stress for a longer duration (e.g., stress-ng --cpu $(nproc) --vm $(nproc) --vm-bytes 1G --timeout Y). The goal is to induce a more lasting change, if any.
+            Log temp/freq during this.
+        "Cool-down/Consolidation" Phase:
+            Idle period.
+        Post-Stress Measurement:
+            Measure sysbench cpu score, temp, freq again.
+        "Depression/Forgetting" (Optional for simplest):
+            Long idle period.
+            Measure again.
+        Data Collection: Log timestamp, phase, benchmark score, temp, freq.
+        Comparison: Compare baseline sysbench score to post-stress score. Did it change significantly and persistently?
+        Script Simplification:
+            Remove NEURON mode.
+            Remove STP details, just focus on LTP (baseline -> stress -> post-stress).
+            Remove hammer, spec_havoc.
+            Remove RAPL, ECC, MBW.
+
+    Refining the "Simplest Neuron (LIF)" Script (chosen as primary for "simplest way"):
+        Core loop:
+            Get baseline temp/freq.
+            Apply stress for STRESS_DURATION.
+            During stress, log temp/freq every MONITOR_INTERVAL.
+            After stress, log temp/freq every MONITOR_INTERVAL for RECOVERY_DURATION.
+        Variables needed: STRESS_DURATION, RECOVERY_DURATION, MONITOR_INTERVAL.
+        Functions to keep/simplify: log_message, get_cpu_freq, get_cpu_temp, apply_stress (simplified).
+        Output: A simple CSV: timestamp,phase,temp_c,freq_khz.
+        Interpretation: Plot temp and freq over time. Look for:
+            Rapid temp increase and/or freq decrease during "stress" (integration leading to "fire"/threshold).
+            Gradual temp decrease and/or freq increase during "recovery" (leaking).
+
+    Adjusting the hammer.c and spec_havoc.S (as per user request for these specific tools):
+    The user specifically asked to "adjust the scripts to simplify but make sure go deep and make sure we get a lot of measurements to interpret" while also providing the C and ASM code separately. This implies they want to understand how to use those specific tools in a simplified context.
+
+        Simplified hammer test:
+            Run hammer with a fixed, high number of reps.
+            Focus on whether it completes and if it reports corruption (if check_corruption is on and perform_write is off).
+            Measure system temp/freq before, during (if possible without too much interference), and after hammer runs.
+            This is less about "plasticity" and more about "inducing a fault state."
+            The analogy: applying intense, specific memory stress (like localized neural pathway stimulation).
+            Simplified script:
+                Compile hammer.
+                Baseline temp/freq.
+                Run hammer for a fixed duration or rep count.
+                Monitor temp/freq.
+                Log hammer's exit code (corruption).
+                Post-run temp/freq.
+
+        Simplified spec_havoc test:
+            This tool is a CPU burner with specific instruction patterns.
+            Run it for a fixed duration.
+            Monitor temp/freq.
+            Analogy: intense CPU core stress.
+            Simplified script:
+                Compile spec_havoc.
+                Baseline temp/freq.
+                Run spec_havoc for fixed duration.
+                Monitor temp/freq.
+                Post-run temp/freq.
+
+    Final Plan:
+        Provide a radically simplified shell script focusing on the "Neuron LIF" analogy using basic stress-ng and monitoring temp/freq. This is the "simplest low-level way" with generic tools.
+        Provide separate, smaller scripts demonstrating how to use the user-supplied hammer.c and spec_havoc.S tools for more targeted stress, also with temp/freq monitoring. This addresses "go deep" with those specific tools.
+        Emphasize that these are analogies and the effects observed (temp/freq changes) are standard system responses to load, not direct observations of transistor-level punch-through. The interpretation links it to the paper's concepts.
+        Ensure data logging is frequent to "get a lot of measurements."
+
+This iterative process of understanding the request, deconstructing the source material (paper and script), identifying simplification targets, and then drafting and refining the approach allows for a tailored and effective response.
+
+Okay, this is a fascinating request\! The provided shell script (`Advanced NS-RAM System-Level Analogy Stress Suite v2.3`) is already an *analogy* that maps the paper's transistor-level neuro-synaptic behaviors to *system-level responses* (CPU temperature, frequency, performance benchmarks, errors). The paper itself describes how a *single CMOS transistor*, when biased unconventionally (near punch-through, controlled bulk resistance), can exhibit:
+
+1.  **Neuron-like Leaky Integrate & Fire (LIF):**
+      * **Integrate:** Accumulation of "charge" (analogous to system stress building up).
+      * **Fire:** Abrupt change (current surge in the transistor; analogous to the system hitting a thermal/power limit, throttling, or even erroring).
+      * **Leaky:** Gradual return to a resting state (analogous to the system cooling down, frequencies recovering).
+2.  **Synapse-like Plasticity (Short-Term & Long-Term):**
+      * **Potentiation (STP/LTP):** Repeated stimuli (stress pulses) change the transistor's conductance (analogous to system performance metrics changing, perhaps degrading or even adapting).
+      * **Depression (STP/LTD):** Different stimuli or rest cause conductance to revert or change further.
+      * **Retention:** For LTP, the change in conductance persists.
+
+Your goal is the "most low-level simplest way" to test for *analogous effects* at a "completely different scale" using the provided scripts (the main shell script, `hammer.c`, and `spec_havoc.S`) as a starting point, simplifying them but going deep with measurements.
+
+Let's break this down. We can't *directly* measure the punch-through effect in a single transistor with these scripts. Instead, we'll simplify the system-level analogy to look for the *coarsest, most observable analogues* of "firing" and "plasticity."
+
+**Core Idea for Simplification:**
+
+  * **"Firing" Analogy (Neuron):** Drive the system hard with a CPU/memory stressor. The "firing" event could be a significant CPU temperature spike, a sharp frequency throttle, or a performance drop. The "leaking" is the system cooling down and recovering frequency/performance when the stress stops.
+  * **"Plasticity" Analogy (Synapse):** Apply a stressor. Does the system's baseline performance (e.g., a quick benchmark) or thermal response *change* after the stress compared to before? This would be a very crude LTP/LTD analogy.
+
+**Simplifying the Main Shell Script for a "Neuron-LIF" Analogy**
+
+This script will focus on the "integrate, fire, leak" analogy.
+We will:
+
+1.  Strip out synaptic modes, complex configurations, and most tools except `stress-ng`, `lm-sensors`, and basic utils.
+2.  Focus on CPU temperature and frequency as primary indicators.
+3.  Run a single, intense stress phase, then a recovery phase, logging frequently.
+
+<!-- end list -->
+
+```bash
+#!/bin/bash
+
+# ─────────────────────────────────────────────────────────────
+# Simplified System-Level Analogy Stress Test (Neuron LIF Focus) v0.1
+# Based on concepts from Advanced NS-RAM System-Level Analogy Stress Suite v2.3
+# Maps transistor dynamics to system behaviors:
+# - Neuron mode: Leaky Integrate & Fire (LIF)
+#   - Integrate: System heats up under load.
+#   - Fire: System reaches peak temperature / throttles frequency.
+#   - Leak: System cools down, frequency recovers post-load.
+# !!! FOR TEST MACHINES !!!
+# ─────────────────────────────────────────────────────────────
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "[ERROR] Please run as root or with sudo." >&2
+    exit 1
+fi
+
+set -euo pipefail
+
+# --- Configuration ---
+STRESS_DURATION_S=60       # How long to apply the main stress
+RECOVERY_DURATION_S=120    # How long to monitor after stress
+MONITOR_INTERVAL_S=1       # How often to take measurements
+CPU_STRESS_LOAD_THREADS=$(nproc) # Number of CPU stress threads
+# Use $(($(nproc)/2)) or a fixed number like 1 or 2 for less intense stress
+
+RUN_ID=$(date +%Y%m%d_%H%M%S)
+DATA_DIR="simplified_stress_data_${RUN_ID}"
+mkdir -p "$DATA_DIR"
+LOGFILE="${DATA_DIR}/stress_analog_run.log"
+NEURON_DATA_CSV="${DATA_DIR}/neuron_lif_analogy_data.csv"
+
+# --- Tool Functions ---
+log_message() {
+    local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    echo "$msg" | tee -a "$LOGFILE" >&2
+}
+
+# Package manager detection and installation
+install_packages() {
+    local missing_pkgs=()
+    # Reduced list of essential packages
+    local essential_packages=(stress-ng lm-sensors coreutils bc) # sysbench for optional baseline
+
+    for pkg in "${essential_packages[@]}"; do
+        if ! command -v "${pkg%%-*}" &>/dev/null && ! dpkg -s "$pkg" &>/dev/null; then
+            # Attempt to handle cases like lm-sensors (command is sensors)
+            local cmd_check="${pkg%%-*}"
+            if [ "$pkg" == "lm-sensors" ]; then cmd_check="sensors"; fi
+             if ! command -v "$cmd_check" &>/dev/null; then
+                missing_pkgs+=("$pkg")
+            fi
+        fi
+    done
+
+    if [ ${#missing_pkgs[@]} -gt 0 ]; then
+        log_message "[+] Installing missing packages: ${missing_pkgs[*]}"
+        if command -v apt-get &>/dev/null; then
+            apt-get update -qq || log_message "[WARN] apt-get update failed."
+            apt-get install -y -qq "${missing_pkgs[@]}" || log_message "[WARN] Failed to install some packages: ${missing_pkgs[*]}. Some features might not work."
+        else
+            log_message "[ERROR] Unsupported package manager. Please manually install: ${missing_pkgs[*]}"
+            exit 1
+        fi
+    fi
+
+    if command -v sensors-detect &>/dev/null && command -v sensors &>/dev/null; then
+        # Only run sensors-detect if sensors seems configured but not finding anything obvious
+        if ! sensors | grep -qE 'Adapter|Core|temp'; then
+            log_message "[*] Running sensors-detect (auto-confirm) as initial sensor data seems sparse..."
+            yes | sensors-detect >/dev/null 2>&1 || log_message "[WARN] sensors-detect run had issues."
+        fi
+    elif command -v apt-get &>/dev/null && ! command -v sensors &>/dev/null; then
+         log_message "[WARN] lm-sensors/sensors command not found. Temperature readings might not be available. Attempting install."
+         apt-get install -y -qq lm-sensors || log_message "[WARN] Failed to install lm-sensors."
+    elif ! command -v sensors &>/dev/null; then
+        log_message "[WARN] sensors command not found. Temperature readings might not be available."
+    fi
+}
+
+
+get_cpu_freq_khz() {
+    # Try lscpu first, then /sys/devices, then specific scaling_cur_freq
+    local freq_mhz
+    freq_mhz=$(lscpu -p=CPU,MHZ | grep -E '^[0-9]+,' | head -n1 | awk -F, '{print $2}' 2>/dev/null)
+    if [[ "$freq_mhz" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        printf "%.0f000" "$freq_mhz"
+        return
+    fi
+
+    if [ -r /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq ]; then
+        cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq 2>/dev/null || echo "N/A"
+    elif [ -r /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ]; then
+        cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2>/dev/null || echo "N/A"
+    else
+        echo "N/A"
+    fi
+}
+
+get_cpu_temp_c() {
+    local temp_val="N/A"
+    if command -v sensors &>/dev/null; then
+        # Prioritize Package or Core 0 temp, then any Tdie, then any temp1/input from common CPU/motherboard sensors
+        temp_val=$(sensors 2>/dev/null | grep -iE 'Package id 0:|Core 0:|Tdie:|temp1:.*\(CRIT|temp1_input:' | head -n1 | awk '{for(i=1;i<=NF;i++) if($i ~ /^\+[0-9]+(\.[0-9]+)?°C$/) {sub(/^\+/,"",$i); sub(/°C$/,"",$i); print $i; exit}}')
+    fi
+    # Fallback if no specific pattern found, take first generic temp
+    if [[ -z "$temp_val" || "$temp_val" == "N/A" ]] && command -v sensors &>/dev/null; then
+         temp_val=$(sensors 2>/dev/null | awk '/\+[0-9]+\.[0-9]+°C/ {gsub(/^\+/,""); gsub(/°C$/,""); print $0; exit}' | awk '{print $1}')
+    fi
+    [ -z "$temp_val" ] || [[ ! "$temp_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && temp_val="N/A"
+    echo "$temp_val"
+}
+
+apply_cpu_stress() {
+    local duration_s=$1
+    local num_threads=$2
+    if [ "$duration_s" -le 0 ]; then return; fi
+    log_message "  Applying CPU stress: $num_threads threads for ${duration_s}s..."
+    # Basic CPU stress. Add --vm 1 --vm-bytes 256M for some memory pressure if desired.
+    stress-ng --cpu "$num_threads" --cpu-load 100 --timeout "${duration_s}s" --metrics-brief --log-brief &>/dev/null &
+    local stress_pid=$!
+    wait "$stress_pid" 2>/dev/null || true # Wait for it to finish or be killed
+    log_message "  CPU stress finished."
+}
+
+_CLEANUP_RUNNING=0
+cleanup() {
+  if [ "$_CLEANUP_RUNNING" -ne 0 ]; then return; fi; _CLEANUP_RUNNING=1
+  log_message "[*] Cleaning up potential stray processes..."
+  # Kill any stress-ng processes that might be lingering
+  pkill -f stress-ng 2>/dev/null || true
+  if [ -n "${stress_pid:-}" ] && ps -p "$stress_pid" > /dev/null; then
+      kill "$stress_pid" 2>/dev/null || true
+      sleep 0.5
+      kill -9 "$stress_pid" 2>/dev/null || true
+  fi
+  log_message "[*] Cleanup finished."
+  _CLEANUP_RUNNING=0
+}
+trap cleanup EXIT INT TERM
+
+# --- Main ---
+install_packages
+log_message "=== Simplified System-Level Analogy Stress Test (Neuron LIF Focus) v0.1 ==="
+log_message "Start time: $(date)"
+log_message "Logging to: $LOGFILE"
+log_message "Data CSV: $NEURON_DATA_CSV"
+log_message "CPU: $(lscpu | grep 'Model name' | sed 's/Model name:[[:space:]]*//' || echo "Unknown CPU")"
+log_message "Kernel: $(uname -r)"
+
+echo "timestamp_utc,timestamp_epoch_s,phase,temp_c,freq_khz" > "$NEURON_DATA_CSV"
+
+# Phase: Baseline (very short)
+log_message "[1] Capturing Initial Baseline State..."
+current_temp_c=$(get_cpu_temp_c)
+current_freq_khz=$(get_cpu_freq_khz)
+log_message "  Initial: Temp=${current_temp_c}C, Freq=${current_freq_khz}KHz"
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),baseline,${current_temp_c},${current_freq_khz}" >> "$NEURON_DATA_CSV"
+sleep $MONITOR_INTERVAL_S
+
+# Phase: Integrate & Fire (Stress Application)
+log_message "[2] Starting 'Integrate & Fire' Analogy (CPU Stress for ${STRESS_DURATION_S}s)..."
+stress_start_time=$(date +%s)
+# Run stress in background so we can monitor
+(apply_cpu_stress "$STRESS_DURATION_S" "$CPU_STRESS_LOAD_THREADS") &
+stress_bg_pid=$!
+
+current_loop_time=0
+while [ "$current_loop_time" -lt "$STRESS_DURATION_S" ]; do
+    current_temp_c=$(get_cpu_temp_c)
+    current_freq_khz=$(get_cpu_freq_khz)
+    log_message "  Stressing ($((current_loop_time+MONITOR_INTERVAL_S))s/${STRESS_DURATION_S}s): Temp=${current_temp_c}C, Freq=${current_freq_khz}KHz"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),stress,${current_temp_c},${current_freq_khz}" >> "$NEURON_DATA_CSV"
+    
+    sleep $MONITOR_INTERVAL_S
+    current_loop_time=$((current_loop_time + MONITOR_INTERVAL_S))
+    # Check if stress_bg_pid ended early
+    if ! ps -p "$stress_bg_pid" > /dev/null; then
+        log_message "  Stress process $stress_bg_pid ended earlier than expected."
+        break
+    fi
+done
+wait "$stress_bg_pid" 2>/dev/null || true # Ensure it's finished
+log_message "'Integrate & Fire' phase complete."
+
+# Phase: Leak & Recover
+log_message "[3] Starting 'Leak & Recover' Analogy (Monitoring for ${RECOVERY_DURATION_S}s)..."
+current_loop_time=0
+while [ "$current_loop_time" -lt "$RECOVERY_DURATION_S" ]; do
+    current_temp_c=$(get_cpu_temp_c)
+    current_freq_khz=$(get_cpu_freq_khz)
+    log_message "  Recovering ($((current_loop_time+MONITOR_INTERVAL_S))s/${RECOVERY_DURATION_S}s): Temp=${current_temp_c}C, Freq=${current_freq_khz}KHz"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),recovery,${current_temp_c},${current_freq_khz}" >> "$NEURON_DATA_CSV"
+    sleep $MONITOR_INTERVAL_S
+    current_loop_time=$((current_loop_time + MONITOR_INTERVAL_S))
+done
+log_message "'Leak & Recover' phase complete."
+
+log_message "[4] Test Finished."
+log_message "Review data in: $NEURON_DATA_CSV"
+log_message "Full log in: $LOGFILE"
+
+# Optional: Basic plot generation if python3-matplotlib is available
+if command -v python3 &>/dev/null && python3 -c "import matplotlib; import pandas" &>/dev/null; then
+    log_message "Attempting to generate a simple plot..."
+    python3 << EOF
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+
+csv_file = "$NEURON_DATA_CSV"
+output_plot_file = "${DATA_DIR}/temp_freq_plot.png"
+
+if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
+    print(f"CSV file {csv_file} is empty or does not exist. Skipping plot.")
+else:
+    try:
+        df = pd.read_csv(csv_file)
+        df['timestamp_epoch_s'] = pd.to_numeric(df['timestamp_epoch_s'], errors='coerce')
+        df['temp_c'] = pd.to_numeric(df['temp_c'], errors='coerce')
+        df['freq_khz'] = pd.to_numeric(df['freq_khz'], errors='coerce')
+        df.dropna(subset=['timestamp_epoch_s', 'temp_c', 'freq_khz'], inplace=True)
+
+        if not df.empty:
+            fig, ax1 = plt.subplots(figsize=(12, 6))
+
+            color = 'tab:red'
+            ax1.set_xlabel('Time (s from start)')
+            ax1.set_ylabel('Temperature (°C)', color=color)
+            ax1.plot(df['timestamp_epoch_s'] - df['timestamp_epoch_s'].iloc[0], df['temp_c'], color=color, marker='o', linestyle='-')
+            ax1.tick_params(axis='y', labelcolor=color)
+            # Add phase lines
+            last_phase = None
+            for i, row in df.iterrows():
+                if row['phase'] != last_phase and last_phase is not None:
+                     ax1.axvline(x=row['timestamp_epoch_s'] - df['timestamp_epoch_s'].iloc[0], color='gray', linestyle='--', alpha=0.7, label=f'{last_phase} end' if i==0 else None) # Label only once
+                last_phase = row['phase']
+
+
+            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+            color = 'tab:blue'
+            ax2.set_ylabel('Frequency (KHz)', color=color)
+            ax2.plot(df['timestamp_epoch_s'] - df['timestamp_epoch_s'].iloc[0], df['freq_khz'], color=color, marker='x', linestyle='--')
+            ax2.tick_params(axis='y', labelcolor=color)
+
+            fig.tight_layout()  # otherwise the right y-label is slightly clipped
+            plt.title('System Temperature and Frequency Over Time (LIF Analogy)')
+            # Create a single legend for phases if possible, or just use vlines as indicators
+            # Handles for legend
+            handles, labels = [], []
+            if any(df['phase']=='stress'): handles.append(plt.Line2D([0], [0], color='gray', linestyle='--', label='Phase Change'))
+            if not handles: # if no phase changes, legend is empty
+                 fig.legend(loc="upper right")
+            else:
+                 fig.legend(handles, labels, loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax1.transAxes)
+
+
+            plt.savefig(output_plot_file)
+            print(f"Plot saved to {output_plot_file}")
+        else:
+            print(f"No valid data to plot in {csv_file}")
+
+    except Exception as e:
+        print(f"Failed to generate plot: {e}")
+EOF
+else
+    log_message "Python3 with Matplotlib and Pandas not found. Skipping plot generation."
+    log_message "You can plot '$NEURON_DATA_CSV' manually using your preferred tool."
+fi
+
+exit 0
+```
+
+**How to Interpret the Simplified "Neuron-LIF" Script Output:**
+
+1.  Run the script.
+2.  Examine the `${DATA_DIR}/neuron_lif_analogy_data.csv` file.
+3.  Plot Temperature and Frequency vs. Time.
+      * **Integrate:** You should see temperature rise and frequency potentially drop (due to thermal throttling) during the "stress" phase.
+      * **Fire (Analogy):** The peak temperature reached, or the point where frequency starts to significantly drop, is your analogous "firing threshold."
+      * **Leak:** During the "recovery" phase, temperature should fall, and frequency should return to near baseline. The rate of this recovery is the "leakiness."
+
+**Simplifying the `hammer.c` and `spec_havoc.S` Tests**
+
+The original script uses these for more specific types of stress. To simplify their use for a "deep dive" into their specific effects:
+
+**A. Simplified Script to Test with `hammer.c`**
+
+This focuses on running the `hammer` tool (which you provided) and observing system impact. The `hammer` tool tries to induce bit flips by rapidly accessing memory rows. The analogy here is an intense, localized stress.
+
+```bash
+#!/bin/bash
+
+# ─────────────────────────────────────────────────────────────
+# Simplified Test for user-provided hammer.c
+# Observes system impact (temp/freq) of the hammer tool.
+# Analogy: Intense, localized memory stress.
+# !!! FOR TEST MACHINES !!!
+# ─────────────────────────────────────────────────────────────
+
+if [ "$(id -u)" -ne 0 ]; then echo "[ERROR] Please run as root or with sudo." >&2; exit 1; fi
+set -euo pipefail
+
+# --- Configuration ---
+HAMMER_DURATION_APPROX_S=60 # Hammer runs by reps, this is for monitoring ONLy
+HAMMER_REPS=20000000 # Number of repetitions for hammer
+HAMMER_THREADS=$(nproc)    # Threads for hammer
+MONITOR_INTERVAL_S=2
+
+RUN_ID="hammer_test_$(date +%Y%m%d_%H%M%S)"
+DATA_DIR="${RUN_ID}"
+mkdir -p "$DATA_DIR"
+LOGFILE="${DATA_DIR}/hammer_run.log"
+HAMMER_DATA_CSV="${DATA_DIR}/hammer_telemetry_data.csv"
+HAMMER_C_FILE="provided_hammer.c" # EXPECTING YOUR hammer.c in current dir
+HAMMER_EXE="./hammer_compiled"
+
+# --- Functions (re-use log_message, install_packages, get_cpu_freq_khz, get_cpu_temp_c from above script) ---
+log_message() { local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $1"; echo "$msg" | tee -a "$LOGFILE" >&2; }
+get_cpu_freq_khz() { freq_mhz=$(lscpu -p=CPU,MHZ | grep -E '^[0-9]+,' | head -n1 | awk -F, '{print $2}' 2>/dev/null); if [[ "$freq_mhz" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then printf "%.0f000" "$freq_mhz"; return; fi; if [ -r /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq ]; then cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq 2>/dev/null || echo "N/A"; elif [ -r /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ]; then cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2>/dev/null || echo "N/A"; else echo "N/A"; fi; }
+get_cpu_temp_c() { local temp_val="N/A"; if command -v sensors &>/dev/null; then temp_val=$(sensors 2>/dev/null | grep -iE 'Package id 0:|Core 0:|Tdie:|temp1:.*\(CRIT|temp1_input:' | head -n1 | awk '{for(i=1;i<=NF;i++) if($i ~ /^\+[0-9]+(\.[0-9]+)?°C$/) {sub(/^\+/,"",$i); sub(/°C$/,"",$i); print $i; exit}}'); fi; if [[ -z "$temp_val" || "$temp_val" == "N/A" ]] && command -v sensors &>/dev/null; then temp_val=$(sensors 2>/dev/null | awk '/\+[0-9]+\.[0-9]+°C/ {gsub(/^\+/,""); gsub(/°C$/,""); print $0; exit}' | awk '{print $1}'); fi; [ -z "$temp_val" ] || [[ ! "$temp_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && temp_val="N/A"; echo "$temp_val"; }
+install_packages_minimal() {
+    local missing_pkgs=()
+    local essential_packages=(gcc build-essential lm-sensors coreutils bc) # For compiling C code
+    for pkg in "${essential_packages[@]}"; do
+        local cmd_check="${pkg%%-*}"; if [ "$pkg" == "lm-sensors" ]; then cmd_check="sensors"; elif [ "$pkg" == "build-essential" ]; then cmd_check="make"; fi
+        if ! command -v "$cmd_check" &>/dev/null && ! dpkg -s "$pkg" &>/dev/null; then missing_pkgs+=("$pkg"); fi
+    done
+    if [ ${#missing_pkgs[@]} -gt 0 ]; then
+        log_message "[+] Installing missing packages: ${missing_pkgs[*]}"
+        if command -v apt-get &>/dev/null; then apt-get update -qq && apt-get install -y -qq "${missing_pkgs[@]}"; else log_message "[ERROR] Please install: ${missing_pkgs[*]}"; exit 1; fi
+    fi
+    if command -v sensors-detect &>/dev/null && ! (sensors | grep -qE 'Adapter|Core|temp'); then yes | sensors-detect >/dev/null 2>&1; fi
+}
+_CLEANUP_RUNNING=0
+cleanup() {
+  if [ "$_CLEANUP_RUNNING" -ne 0 ]; then return; fi; _CLEANUP_RUNNING=1
+  log_message "[*] Cleaning up ${HAMMER_EXE}..."
+  pkill -f "${HAMMER_EXE##*/}" 2>/dev/null || true
+  if [ -n "${hammer_pid:-}" ] && ps -p "$hammer_pid" > /dev/null; then kill "$hammer_pid" 2>/dev/null || true; sleep 0.5; kill -9 "$hammer_pid" 2>/dev/null || true; fi
+  rm -f "$HAMMER_EXE"
+  log_message "[*] Cleanup finished."
+   _CLEANUP_RUNNING=0
+}
+trap cleanup EXIT INT TERM
+
+# --- Main ---
+install_packages_minimal
+log_message "=== Simplified Test for hammer.c ==="
+
+if [ ! -f "$HAMMER_C_FILE" ]; then
+    log_message "[ERROR] $HAMMER_C_FILE not found. Please place your C source file here."
+    cat > "$HAMMER_C_FILE" << 'DEFAULT_HAMMER_EOF'
+// Enhanced Rowhammer-like memory stressor
+// Inspired by concepts of inducing fault states to observe analog-like behaviors
+// in digital systems, as discussed in neuromorphic computing analogies.
+#define _GNU_SOURCE // For CPU_SET, CPU_ZERO, pthread_setaffinity_np
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <x86intrin.h> // For _mm_clflush and _mm_mfence
+#include <unistd.h>    // For sysconf
+#include <pthread.h>
+#include <time.h>
+#include <sys/mman.h> // For mmap-related constants if needed, sysconf
+#include <sched.h>    // For pthread_setaffinity_np
+
+// Default configuration values
+#define DEFAULT_REPS 100000000ULL
+#define DEFAULT_VICTIM_SIZE 8192
+#define DEFAULT_AGGRESSOR_OFFSET 8192
+// Set default thread count to number of online processors, fallback to 4
+long nproc_online; // Global to store nproc result
+#define GET_DEFAULT_THREAD_COUNT() (nproc_online = sysconf(_SC_NPROCESSORS_ONLN), (nproc_online > 0 ? (size_t)nproc_online : 4))
+#define DEFAULT_SCAN_STEP_DIVISOR 1
+#define DEFAULT_MEMORY_MB 128
+#define DEFAULT_STOP_ON_FIRST_FLIP 0
+#define DEFAULT_SET_AFFINITY 1 // Enable thread affinity by default
+
+// Configuration structure to hold all parameters
+typedef struct {
+    size_t reps;
+    size_t victim_region_size;
+    size_t aggressor_offset;
+    size_t thread_count;
+    size_t scan_step_divisor;
+    size_t total_memory_mb;
+    int stop_on_first_flip;
+    int set_affinity;
+    // Derived values
+    size_t scan_step;
+    size_t total_memory_to_allocate;
+    size_t alignment;
+    long num_available_cores;
+} config_t;
+
+// Arguments for each hammer thread
+typedef struct {
+    volatile uint8_t *addr1;
+    volatile uint8_t *addr2;
+    size_t reps;
+    int thread_id;
+    const config_t *config; // Pointer to global config for affinity
+} hammer_args_t;
+
+
+// Function to get current time in nanoseconds for measurements
+uint64_t get_ns(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (uint64_t)ts.tv_sec * 1000000000LL + ts.tv_nsec;
+}
+
+// The core hammering function: repeatedly accesses two aggressor addresses
+// This intense, localized activity is analogous to repeatedly stimulating specific pathways,
+// potentially leading to a "threshold" being crossed in victim cells (bit flip).
+void hammer_row(volatile uint8_t *addr1, volatile uint8_t *addr2, size_t reps) {
+    for (size_t i = 0; i < reps; i++) {
+        // Volatile reads to ensure the compiler doesn't optimize them away.
+        // Accessing a wider type (like uint64_t) can sometimes be more effective
+        // at activating the DRAM row than a single byte access.
+        *(volatile uint64_t*)addr1;
+        *(volatile uint64_t*)addr2;
+
+        // Flush aggressor addresses from cache to force DRAM access.
+        // This is critical for Rowhammer-like effects, ensuring direct DRAM interaction.
+        _mm_clflush((const void *)addr1);
+        _mm_clflush((const void *)addr2);
+
+        // Memory fence to ensure flushes complete and memory operations are ordered.
+        _mm_mfence();
+    }
+}
+
+// Thread function that calls hammer_row
+void *hammer_thread_func(void *args_ptr) { // Renamed to avoid conflict if included elsewhere
+    hammer_args_t *hargs = (hammer_args_t *)args_ptr;
+    const config_t *cfg = hargs->config;
+
+    if (cfg->set_affinity && cfg->thread_count > 0 && cfg->num_available_cores > 0) {
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        // Simple modulo distribution of threads to cores
+        CPU_SET(hargs->thread_id % cfg->num_available_cores, &cpuset);
+        if (pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset) != 0) {
+            perror("Warning: Could not set thread affinity");
+            // Continue without affinity if it fails
+        }
+    }
+
+    hammer_row(hargs->addr1, hargs->addr2, hargs->reps);
+    return NULL;
+}
+
+// Helper to parse string to size_t, with error checking
+size_t parse_size_t(const char *str, const char *arg_name, int allow_zero_for_this_param) {
+    char *endptr;
+    unsigned long long val = strtoull(str, &endptr, 10);
+    if (endptr == str || *endptr != '\0') {
+        fprintf(stderr, "Error: Invalid number for %s: %s\n", arg_name, str);
+        exit(EXIT_FAILURE);
+    }
+    if (!allow_zero_for_this_param && val == 0) {
+        fprintf(stderr, "Error: Zero value not allowed for %s: %s\n", arg_name, str);
+        exit(EXIT_FAILURE);
+    }
+    return (size_t)val;
+}
+
+void print_usage(char *argv0) {
+    printf("Usage: %s [options]\n", argv0);
+    printf("Enhanced Rowhammer-like Memory Stressor\n");
+    printf("Attempts to induce bit flips by repeatedly accessing memory, analogous to stressing neuro-synaptic elements.\n\n");
+    printf("Options:\n");
+    printf("  --reps N                Repetitions per thread/region (default: %llu)\n", (unsigned long long)DEFAULT_REPS);
+    printf("  --victim-size N         Size of victim region to check (bytes, default: %u)\n", DEFAULT_VICTIM_SIZE);
+    printf("  --aggressor-offset N    Offset of aggressor addrs from victim start (bytes, default: %u)\n", DEFAULT_AGGRESSOR_OFFSET);
+    printf("  --threads N             Number of hammering threads (default: %ld or 4 if detection fails)\n", nproc_online > 0 ? nproc_online : 4);
+    printf("  --scan-step-divisor N   Victim scan step = victim-size / N (default: %u; 1 for non-overlapping)\n", DEFAULT_SCAN_STEP_DIVISOR);
+    printf("  --memory-mb N           Total memory to allocate for scanning (MB, default: %u)\n", DEFAULT_MEMORY_MB);
+    printf("  --set-affinity <0|1>    Set thread affinity (default: %d, 1=yes, 0=no)\n", DEFAULT_SET_AFFINITY);
+    printf("  --stop-on-first-flip    Stop after the first bit flip is detected (flag, no argument)\n");
+    printf("  --help                  Show this help message\n");
+}
+
+
+int main(int argc, char **argv) {
+    config_t config;
+    config.reps = DEFAULT_REPS;
+    config.victim_region_size = DEFAULT_VICTIM_SIZE;
+    config.aggressor_offset = DEFAULT_AGGRESSOR_OFFSET;
+    config.thread_count = GET_DEFAULT_THREAD_COUNT(); // Initialize with dynamic default
+    config.scan_step_divisor = DEFAULT_SCAN_STEP_DIVISOR;
+    config.total_memory_mb = DEFAULT_MEMORY_MB;
+    config.stop_on_first_flip = DEFAULT_STOP_ON_FIRST_FLIP;
+    config.set_affinity = DEFAULT_SET_AFFINITY;
+    config.num_available_cores = sysconf(_SC_NPROCESSORS_ONLN);
+    if (config.num_available_cores <= 0) config.num_available_cores = 1; // Fallback for affinity calculation
+
+
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--reps") == 0 && i + 1 < argc) config.reps = parse_size_t(argv[++i], "--reps", 0);
+        else if (strcmp(argv[i], "--victim-size") == 0 && i + 1 < argc) config.victim_region_size = parse_size_t(argv[++i], "--victim-size", 0);
+        else if (strcmp(argv[i], "--aggressor-offset") == 0 && i + 1 < argc) config.aggressor_offset = parse_size_t(argv[++i], "--aggressor-offset", 0);
+        else if (strcmp(argv[i], "--threads") == 0 && i + 1 < argc) config.thread_count = parse_size_t(argv[++i], "--threads", 0);
+        else if (strcmp(argv[i], "--scan-step-divisor") == 0 && i + 1 < argc) config.scan_step_divisor = parse_size_t(argv[++i], "--scan-step-divisor", 0);
+        else if (strcmp(argv[i], "--memory-mb") == 0 && i + 1 < argc) config.total_memory_mb = parse_size_t(argv[++i], "--memory-mb", 0);
+        else if (strcmp(argv[i], "--set-affinity") == 0 && i + 1 < argc) config.set_affinity = atoi(argv[++i]);
+        else if (strcmp(argv[i], "--stop-on-first-flip") == 0) config.stop_on_first_flip = 1;
+        else if (strcmp(argv[i], "--help") == 0) { print_usage(argv[0]); return 0; }
+        else { fprintf(stderr, "Unknown option: %s\n", argv[i]); print_usage(argv[0]); return 1; }
+    }
+
+    if (config.scan_step_divisor == 0) config.scan_step_divisor = 1; // Avoid division by zero
+    config.scan_step = config.victim_region_size / config.scan_step_divisor;
+    if (config.scan_step == 0 && config.victim_region_size > 0) config.scan_step = 1;
+    else if (config.victim_region_size == 0) {fprintf(stderr, "Error: victim-size cannot be 0.\n"); return 1;}
+    if (config.aggressor_offset == 0) {fprintf(stderr, "Error: aggressor-offset cannot be 0.\n"); return 1;}
+    if (config.thread_count == 0) {fprintf(stderr, "Error: thread-count cannot be 0.\n"); return 1;}
+    if (config.reps == 0) {fprintf(stderr, "Error: reps cannot be 0.\n"); return 1;}
+    if (config.total_memory_mb == 0) {fprintf(stderr, "Error: memory-mb cannot be 0.\n"); return 1;}
+
+
+    config.alignment = 2 * 1024 * 1024; // 2MB for trying to use huge pages
+    config.total_memory_to_allocate = config.total_memory_mb * 1024 * 1024;
+
+    if (config.total_memory_to_allocate < (config.aggressor_offset * 2 + config.victim_region_size)) { // Ensure enough space for one full setup
+        fprintf(stderr, "Error: Total memory allocated (%zu MB) is too small for one test setup (victim size %zu, aggressor offset %zu).\n",
+                config.total_memory_mb, config.victim_region_size, config.aggressor_offset);
+        return 1;
+    }
+    if (config.total_memory_to_allocate < config.alignment) {
+         fprintf(stderr, "Warning: Total memory (%zu MB) is less than desired alignment (%zu MB). Proceeding without rounding up to alignment.\n",
+                 config.total_memory_mb, config.alignment / (1024*1024));
+    } else {
+        config.total_memory_to_allocate = ((config.total_memory_to_allocate + config.alignment - 1) / config.alignment) * config.alignment; // Round up to alignment boundary
+    }
+
+
+    printf("Hammer Config: Reps/Thread/Region=%zu, VictimSize=%zu, AggressorOffset=%zu, Threads=%zu, ScanStep=%zu, TotalMem=%.2fMB, Affinity=%d, StopOnFirstFlip=%d\n",
+           config.reps, config.victim_region_size, config.aggressor_offset, config.thread_count, config.scan_step,
+           (double)config.total_memory_to_allocate / (1024.0 * 1024.0), config.set_affinity, config.stop_on_first_flip);
+
+    uint8_t *mem_base = (uint8_t*)aligned_alloc(config.alignment, config.total_memory_to_allocate);
+    if (!mem_base) {
+        perror("aligned_alloc failed for large buffer");
+        return 1;
+    }
+    printf("Allocated %.2f MB at %p. Initializing entire buffer to a background pattern (0xA5)...\n", (double)config.total_memory_to_allocate / (1024.0 * 1024.0), (void*)mem_base);
+    memset(mem_base, 0xA5, config.total_memory_to_allocate);
+    printf("Memory initialized.\n");
+
+    pthread_t *threads = (pthread_t*)malloc(config.thread_count * sizeof(pthread_t));
+    hammer_args_t *args = (hammer_args_t*)malloc(config.thread_count * sizeof(hammer_args_t));
+    if (!threads || !args) {
+        perror("Failed to allocate thread structures");
+        free(mem_base);
+        return 1;
+    }
+
+    int overall_bit_flip_detected = 0;
+    uint64_t total_start_time = get_ns();
+    size_t regions_tested_count = 0;
+    size_t flips_found_total = 0;
+
+    // Iterate through the allocated memory, selecting victim regions
+    // Start victim scan far enough from the beginning to allow for agg1.
+    // End victim scan early enough to allow for agg2 and full victim region.
+    size_t max_victim_start_offset = 0;
+    if (config.total_memory_to_allocate > config.aggressor_offset + config.victim_region_size) { // Ensure no underflow
+        max_victim_start_offset = config.total_memory_to_allocate - config.victim_region_size;
+        if (max_victim_start_offset > config.aggressor_offset) { // Ensure agg2 doesn't go out of bounds
+             max_victim_start_offset -= config.aggressor_offset;
+        } else { // Not enough space for even one aggressor on the other side if victim starts at max_victim_start_offset
+            max_victim_start_offset = config.aggressor_offset; // Will make loop condition false if not enough space
+        }
+    }
+
+
+    for (size_t current_victim_start_offset = config.aggressor_offset;
+         current_victim_start_offset <= max_victim_start_offset;
+         current_victim_start_offset += config.scan_step) {
+
+        if (current_victim_start_offset + config.victim_region_size > config.total_memory_to_allocate) break; // Double check victim region end
+        if (current_victim_start_offset + config.aggressor_offset + sizeof(uint64_t) > config.total_memory_to_allocate) break; // Double check aggressor2 end
+
+        regions_tested_count++;
+        volatile uint8_t *victim_addr = mem_base + current_victim_start_offset;
+        volatile uint8_t *p_agg_row1 = victim_addr - config.aggressor_offset;
+        volatile uint8_t *p_agg_row2 = victim_addr + config.aggressor_offset;
+
+        // Re-initialize the current victim region to 0xFF right before testing it.
+        // This is the "charge" or "integration" phase for our analogical memory neuron.
+        memset((void*)victim_addr, 0xFF, config.victim_region_size);
+
+        // Print progress periodically or if reps are very high (indicative of a long run per region)
+        if (regions_tested_count % 100 == 1 || config.reps > 200000000ULL) {
+             printf("Region %zu: Testing Victim @ %p (Offset from base: 0x%zx). Aggressors: %p (-%zu), %p (+%zu)\n",
+                   regions_tested_count, (void*)victim_addr, (size_t)(victim_addr - mem_base),
+                   (void*)p_agg_row1, config.aggressor_offset, (void*)p_agg_row2, config.aggressor_offset);
+        }
+
+        uint64_t region_start_time = get_ns();
+        for (size_t t = 0; t < config.thread_count; t++) {
+            args[t].addr1 = p_agg_row1;
+            args[t].addr2 = p_agg_row2;
+            args[t].reps = config.reps; // Each thread does the full 'reps' for this region
+            args[t].thread_id = t;
+            args[t].config = &config; // Pass config for affinity
+            if (pthread_create(&threads[t], NULL, hammer_thread_func, &args[t]) != 0) { // Use renamed function
+                perror("pthread_create failed");
+                // Attempt to join/cancel already created threads before exiting
+                for(size_t k=0; k<t; ++k) {
+                    pthread_cancel(threads[k]); // Request cancellation
+                    pthread_join(threads[k], NULL); // Wait for them
+                }
+                free(threads); free(args); free(mem_base);
+                return 1;
+            }
+        }
+
+        for (size_t t = 0; t < config.thread_count; t++) {
+            pthread_join(threads[t], NULL);
+        }
+        uint64_t region_end_time = get_ns();
+
+        int region_bit_flip_detected_this_pass = 0;
+        for (size_t i = 0; i < config.victim_region_size; i++) {
+            if (victim_addr[i] != 0xFF) {
+                // This is analogous to the "neuron firing" or a "synapse changing state" due to stress.
+                printf("\n!!! BIT FLIP DETECTED (Region %zu) !!!\n", regions_tested_count);
+                printf("  Victim Region Start Absolute: %p, Relative Offset from mem_base: 0x%zx\n", (void*)victim_addr, (size_t)(victim_addr - mem_base));
+                printf("  Flipped Byte Address Absolute: %p (Offset within victim: %zu)\n", (void*)&victim_addr[i], i);
+                printf("  Original: 0xFF, Actual: 0x%02X\n", victim_addr[i]);
+                printf("  Hammering time for this region: %.3f s\n", (region_end_time - region_start_time) / 1000000000.0);
+                flips_found_total++;
+                region_bit_flip_detected_this_pass = 1;
+                overall_bit_flip_detected = 1;
+                if (config.stop_on_first_flip) break;
+            }
+        }
+
+        if (region_bit_flip_detected_this_pass && config.stop_on_first_flip) {
+            printf("Stopping scan due to --stop-on-first-flip.\n");
+            break;
+        }
+         // For this simplified test, we only test ONE region to keep it simple and short
+        if (regions_tested_count >= 1) { // Test only 1 region or a few
+            printf("Simplified test: Stopping after %zu region(s).\n", regions_tested_count);
+            break;
+        }
+    }
+
+    uint64_t total_end_time = get_ns();
+    double total_elapsed_s = (total_end_time - total_start_time) / 1000000000.0;
+    printf("\n--- Test Summary ---\n");
+    printf("Tested %zu regions in %.2f seconds.\n", regions_tested_count, total_elapsed_s);
+    printf("Total bit flips detected: %zu\n", flips_found_total);
+
+    if (overall_bit_flip_detected) {
+        printf("Overall Status: BIT FLIPS DETECTED!\n");
+    } else {
+        printf("Overall Status: No bit flips detected in any tested region with current parameters.\n");
+    }
+
+    free(threads);
+    free(args);
+    free(mem_base);
+    return overall_bit_flip_detected ? 2 : 0; // Exit code 2 if flips found, 0 otherwise for this tool
+}
+DEFAULT_HAMMER_EOF
+    log_message "[INFO] Created a default $HAMMER_C_FILE as it was missing. Please use your own if intended."
+fi
+
+log_message "[*] Compiling $HAMMER_C_FILE to $HAMMER_EXE ..."
+gcc -O2 -pthread "$HAMMER_C_FILE" -o "$HAMMER_EXE" -Wall -Wextra || {
+    log_message "[ERROR] Hammer compilation failed!"
+    exit 1
+}
+log_message "[+] Hammer compilation successful: $HAMMER_EXE"
+
+echo "timestamp_utc,timestamp_epoch_s,phase,temp_c,freq_khz,hammer_exit_code" > "$HAMMER_DATA_CSV"
+
+# Baseline
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+log_message "  Baseline: Temp=${temp_c}C, Freq=${freq_khz}KHz"
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),baseline,${temp_c},${freq_khz},N/A" >> "$HAMMER_DATA_CSV"
+sleep $MONITOR_INTERVAL_S
+
+# Run Hammer
+log_message "[*] Starting Hammer test (approx ${HAMMER_DURATION_APPROX_S}s monitor)..."
+log_message "    Command: $HAMMER_EXE --reps $HAMMER_REPS --threads $HAMMER_THREADS --stop-on-first-flip"
+
+# Run hammer in background
+"$HAMMER_EXE" --reps "$HAMMER_REPS" --threads "$HAMMER_THREADS" --stop-on-first-flip &
+hammer_pid=$!
+hammer_exit_code="N/A"
+
+current_loop_time=0
+approx_end_time=$(( $(date +%s) + HAMMER_DURATION_APPROX_S ))
+while ps -p "$hammer_pid" > /dev/null; do
+    now_epoch=$(date +%s)
+    if [ "$now_epoch" -ge "$approx_end_time" ] && [ "$HAMMER_DURATION_APPROX_S" -gt 0 ]; then
+        log_message "[WARN] Hammer monitor duration reached. Hammer process $hammer_pid still running."
+        # Optionally kill hammer here if it runs too long for this simplified test
+        # kill $hammer_pid 2>/dev/null
+        break
+    fi
+
+    temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+    log_message "  Hammering: Temp=${temp_c}C, Freq=${freq_khz}KHz (PID: $hammer_pid)"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),${now_epoch},hammer_active,${temp_c},${freq_khz},N/A" >> "$HAMMER_DATA_CSV"
+    sleep $MONITOR_INTERVAL_S
+    current_loop_time=$((current_loop_time + MONITOR_INTERVAL_S))
+done
+
+if wait "$hammer_pid"; then
+    hammer_exit_code=$?
+    log_message "[INFO] Hammer process $hammer_pid finished with exit code: $hammer_exit_code."
+else
+    hammer_exit_code=$?
+    log_message "[WARN] Hammer process $hammer_pid finished with error or was killed. Exit code: $hammer_exit_code."
+fi
+# If exit code 2 from your C code means corruption
+if [ "$hammer_exit_code" -eq 2 ]; then
+    log_message "[!!!] HAMMER DETECTED BIT FLIP (Corruption)!"
+elif [ "$hammer_exit_code" -eq 0 ]; then
+    log_message "[INFO] Hammer reported no bit flips."
+else
+    log_message "[INFO] Hammer exit code $hammer_exit_code (unknown status regarding flips for this script)."
+fi
+
+
+# Recovery
+log_message "[*] Hammer finished. Monitoring recovery..."
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+log_message "  Post-Hammer: Temp=${temp_c}C, Freq=${freq_khz}KHz. Hammer Exit: $hammer_exit_code"
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),post_hammer,${temp_c},${freq_khz},${hammer_exit_code}" >> "$HAMMER_DATA_CSV"
+sleep $MONITOR_INTERVAL_S # One last recovery datapoint
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),recovery,${temp_c},${freq_khz},${hammer_exit_code}" >> "$HAMMER_DATA_CSV"
+
+log_message "[*] Hammer Test Finished. Data in $HAMMER_DATA_CSV. Log in $LOGFILE."
+rm -f "$HAMMER_EXE"
+exit 0
+```
+
+**B. Simplified Script to Test with `spec_havoc.S`**
+
+This focuses on running the `spec_havoc` assembly code (CPU intensive) and observing system impact.
+
+```bash
+#!/bin/bash
+
+# ─────────────────────────────────────────────────────────────
+# Simplified Test for user-provided spec_havoc.S
+# Observes system impact (temp/freq) of the spec_havoc tool.
+# Analogy: Intense, specific CPU core stress.
+# !!! FOR TEST MACHINES !!!
+# ─────────────────────────────────────────────────────────────
+
+if [ "$(id -u)" -ne 0 ]; then echo "[ERROR] Please run as root or with sudo." >&2; exit 1; fi
+set -euo pipefail
+
+# --- Configuration ---
+HAVOC_DURATION_S=60      # How long to run spec_havoc
+MONITOR_INTERVAL_S=1
+
+RUN_ID="spec_havoc_test_$(date +%Y%m%d_%H%M%S)"
+DATA_DIR="${RUN_ID}"
+mkdir -p "$DATA_DIR"
+LOGFILE="${DATA_DIR}/spec_havoc_run.log"
+HAVOC_DATA_CSV="${DATA_DIR}/spec_havoc_telemetry_data.csv"
+HAVOC_S_FILE="provided_spec_havoc.S" # EXPECTING YOUR spec_havoc.S
+HAVOC_O_FILE="${DATA_DIR}/spec_havoc.o"
+HAVOC_EXE="${DATA_DIR}/spec_havoc_compiled"
+
+# --- Functions (re-use log_message, install_packages_minimal, get_cpu_freq_khz, get_cpu_temp_c from hammer script) ---
+log_message() { local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $1"; echo "$msg" | tee -a "$LOGFILE" >&2; }
+get_cpu_freq_khz() { freq_mhz=$(lscpu -p=CPU,MHZ | grep -E '^[0-9]+,' | head -n1 | awk -F, '{print $2}' 2>/dev/null); if [[ "$freq_mhz" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then printf "%.0f000" "$freq_mhz"; return; fi; if [ -r /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq ]; then cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq 2>/dev/null || echo "N/A"; elif [ -r /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ]; then cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2>/dev/null || echo "N/A"; else echo "N/A"; fi; }
+get_cpu_temp_c() { local temp_val="N/A"; if command -v sensors &>/dev/null; then temp_val=$(sensors 2>/dev/null | grep -iE 'Package id 0:|Core 0:|Tdie:|temp1:.*\(CRIT|temp1_input:' | head -n1 | awk '{for(i=1;i<=NF;i++) if($i ~ /^\+[0-9]+(\.[0-9]+)?°C$/) {sub(/^\+/,"",$i); sub(/°C$/,"",$i); print $i; exit}}'); fi; if [[ -z "$temp_val" || "$temp_val" == "N/A" ]] && command -v sensors &>/dev/null; then temp_val=$(sensors 2>/dev/null | awk '/\+[0-9]+\.[0-9]+°C/ {gsub(/^\+/,""); gsub(/°C$/,""); print $0; exit}' | awk '{print $1}'); fi; [ -z "$temp_val" ] || [[ ! "$temp_val" =~ ^[0-9]+(\.[0-9]+)?$ ]] && temp_val="N/A"; echo "$temp_val"; }
+install_packages_minimal() {
+    local missing_pkgs=()
+    local essential_packages=(binutils gcc lm-sensors coreutils bc) # For compiling assembly
+    for pkg in "${essential_packages[@]}"; do
+        local cmd_check="${pkg%%-*}"; if [ "$pkg" == "lm-sensors" ]; then cmd_check="sensors"; elif [ "$pkg" == "binutils" ]; then cmd_check="as"; fi
+        if ! command -v "$cmd_check" &>/dev/null && ! dpkg -s "$pkg" &>/dev/null; then missing_pkgs+=("$pkg"); fi
+    done
+    if [ ${#missing_pkgs[@]} -gt 0 ]; then
+        log_message "[+] Installing missing packages: ${missing_pkgs[*]}"
+        if command -v apt-get &>/dev/null; then apt-get update -qq && apt-get install -y -qq "${missing_pkgs[@]}"; else log_message "[ERROR] Please install: ${missing_pkgs[*]}"; exit 1; fi
+    fi
+     if command -v sensors-detect &>/dev/null && ! (sensors | grep -qE 'Adapter|Core|temp'); then yes | sensors-detect >/dev/null 2>&1; fi
+}
+_CLEANUP_RUNNING=0
+cleanup() {
+  if [ "$_CLEANUP_RUNNING" -ne 0 ]; then return; fi; _CLEANUP_RUNNING=1
+  log_message "[*] Cleaning up ${HAVOC_EXE##*/} ..."
+  pkill -f "${HAVOC_EXE##*/}" 2>/dev/null || true # Kill by name
+  if [ -n "${havoc_pid:-}" ] && ps -p "$havoc_pid" > /dev/null; then kill "$havoc_pid" 2>/dev/null || true; sleep 0.5; kill -9 "$havoc_pid" 2>/dev/null || true; fi
+  rm -f "$HAVOC_O_FILE" "$HAVOC_EXE"
+  log_message "[*] Cleanup finished."
+  _CLEANUP_RUNNING=0
+}
+trap cleanup EXIT INT TERM
+
+# --- Main ---
+install_packages_minimal
+log_message "=== Simplified Test for spec_havoc.S ==="
+
+if [ ! -f "$HAVOC_S_FILE" ]; then
+    log_message "[ERROR] $HAVOC_S_FILE not found. Please place your Assembly source file here."
+    cat > "$HAVOC_S_FILE" << 'DEFAULT_SPEC_HAVOC_EOF'
+.section .text;.global _start;_start:vmovaps %ymm0,%ymm1;vmovaps %ymm0,%ymm2;vmovaps %ymm0,%ymm3;vmovaps %ymm0,%ymm4;vmovaps %ymm0,%ymm5;vmovaps %ymm0,%ymm6;vmovaps %ymm0,%ymm7;xor %r12,%r12;mov $200000000,%r13;xor %r14,%r14;mov $0x5555555555555555,%rax;mov $0xaaaaaaaaaaaaaaaa,%rbx;mov $0x3333333333333333,%rcx;mov $0xcccccccccccccccc,%rdx;.main_loop:inc %r14;cmp %r13,%r14;jge .exit;test $0x1FFF,%r14;jnz .skip_phase_change;inc %r12;and $3,%r12;.skip_phase_change:cmp $0,%r12;je .phase0;cmp $1,%r12;je .phase1;cmp $2,%r12;je .phase2;jmp .phase3;.phase0:vaddps %ymm0,%ymm1,%ymm2;vmulps %ymm2,%ymm3,%ymm4;vdivps %ymm4,%ymm5,%ymm6;vaddps %ymm6,%ymm7,%ymm0;vaddps %ymm0,%ymm1,%ymm2;vmulps %ymm2,%ymm3,%ymm4;vdivps %ymm4,%ymm5,%ymm6;vaddps %ymm6,%ymm7,%ymm1;jmp .continue;.phase1:imul %rax,%rbx;add %rbx,%rcx;xor %rcx,%rdx;ror $11,%rax;imul %rdx,%rax;add %rax,%rbx;xor %rbx,%rcx;ror $13,%rdx;imul %rcx,%rdx;jmp .continue;.phase2:test $1,%r14;jz .bp1;test $2,%r14;jnz .bp2;test $4,%r14;jz .bp3;test $8,%r14;jnz .bp4;jmp .branch_done;.bp1:add $1,%rax;jmp .branch_done;.bp2:sub $1,%rbx;jmp .branch_done;.bp3:xor $0xFF,%rcx;jmp .branch_done;.bp4:rol $1,%rdx;.branch_done:jmp .continue;.phase3:push %rax;push %rbx;push %rcx;push %rdx;add (%rsp),%rax;xor 8(%rsp),%rbx;sub 16(%rsp),%rcx;pop %rdx;pop %rcx;pop %rbx;pop %rax;.continue:test $0xFFFFF,%r14;jnz .main_loop;cmp %r13,%r14;jl .main_loop;.exit:mov $60,%rax;xor %rdi,%rdi;syscall
+DEFAULT_SPEC_HAVOC_EOF
+    log_message "[INFO] Created a default $HAVOC_S_FILE as it was missing. Please use your own if intended."
+fi
+
+log_message "[*] Assembling and linking $HAVOC_S_FILE to $HAVOC_EXE..."
+as "$HAVOC_S_FILE" -o "$HAVOC_O_FILE" && ld "$HAVOC_O_FILE" -o "$HAVOC_EXE" || {
+    log_message "[ERROR] Spec Havoc assembly/linking failed!"
+    rm -f "$HAVOC_O_FILE"
+    exit 1
+}
+log_message "[+] Spec Havoc compilation successful: $HAVOC_EXE"
+rm -f "$HAVOC_O_FILE" # Clean up object file
+
+echo "timestamp_utc,timestamp_epoch_s,phase,temp_c,freq_khz" > "$HAVOC_DATA_CSV"
+
+# Baseline
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+log_message "  Baseline: Temp=${temp_c}C, Freq=${freq_khz}KHz"
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),baseline,${temp_c},${freq_khz}" >> "$HAVOC_DATA_CSV"
+sleep $MONITOR_INTERVAL_S
+
+# Run Spec Havoc
+log_message "[*] Starting Spec Havoc test (${HAVOC_DURATION_S}s)..."
+( timeout "$HAVOC_DURATION_S"s "$HAVOC_EXE" &>/dev/null ) &
+havoc_pid=$!
+
+current_loop_time=0
+while [ "$current_loop_time" -lt "$HAVOC_DURATION_S" ]; do
+    if ! ps -p "$havoc_pid" > /dev/null; then
+        log_message "  Spec Havoc process $havoc_pid ended earlier than expected."
+        break
+    fi
+    temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+    log_message "  Havoc Stress ($((current_loop_time+MONITOR_INTERVAL_S))s/${HAVOC_DURATION_S}s): Temp=${temp_c}C, Freq=${freq_khz}KHz"
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),havoc_stress,${temp_c},${freq_khz}" >> "$HAVOC_DATA_CSV"
+    sleep $MONITOR_INTERVAL_S
+    current_loop_time=$((current_loop_time + MONITOR_INTERVAL_S))
+done
+wait "$havoc_pid" 2>/dev/null || true # Ensure it's finished if timeout didn't kill it or it finished early
+log_message "Spec Havoc stress phase complete."
+
+# Recovery
+log_message "[*] Spec Havoc finished. Monitoring recovery..."
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+log_message "  Post-Havoc: Temp=${temp_c}C, Freq=${freq_khz}KHz"
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),post_havoc,${temp_c},${freq_khz}" >> "$HAVOC_DATA_CSV"
+sleep $MONITOR_INTERVAL_S # One last recovery datapoint
+temp_c=$(get_cpu_temp_c); freq_khz=$(get_cpu_freq_khz)
+echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ"),$(date +%s),recovery,${temp_c},${freq_khz}" >> "$HAVOC_DATA_CSV"
+
+log_message "[*] Spec Havoc Test Finished. Data in $HAVOC_DATA_CSV. Log in $LOGFILE."
+rm -f "$HAVOC_EXE"
+exit 0
+```
+
+**To Use These Scripts:**
+
+1.  **Save the main simplified script** (e.g., `simple_lif_test.sh`).
+2.  **Save the `hammer` test script** (e.g., `test_hammer_simple.sh`). Copy your `hammer.c` (from the prompt) to `provided_hammer.c` in the same directory.
+3.  **Save the `spec_havoc` test script** (e.g., `test_spec_havoc_simple.sh`). Copy your `spec_havoc.S` (from the prompt) to `provided_spec_havoc.S` in the same directory.
+4.  Make them executable: `chmod +x *.sh`
+5.  Run as root: `sudo ./simple_lif_test.sh`, `sudo ./test_hammer_simple.sh`, etc.
+
+**Interpretation for `hammer` and `spec_havoc` tests:**
+
+  * Plot temperature and frequency over time, similar to the LIF analogy.
+  * For `hammer`, the key output is also its exit code (and any stdout/stderr it produces about bit flips). If it causes bit flips (exit code 2 from your example), that's a significant "event" or "state change" in the memory subsystem analogy.
+  * These tools provide more targeted stress. `hammer` is memory-focused, `spec_havoc` is CPU-execution-path focused. You're looking for how the system (temp/freq) responds to these specific stresses, and if `hammer` can induce a "fault."
+
+These simplified scripts provide a starting point. You can adjust durations, load levels, and the parameters for `hammer.c` to explore different aspects of your system's response under stress, always keeping the "analogy" to the paper's transistor behaviors in mind. The "deep dive" comes from analyzing the dense telemetry (temp/freq every second) and correlating it with the stress applied and any faults observed.

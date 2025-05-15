@@ -1,0 +1,31 @@
+{
+  "os": "Linux-6.11.0-25-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.12.3",
+  "startedAt": "2025-05-14T13:49:16.294165Z",
+  "program": "/home/blue/Transistor_Pilates/analyze_gpt4-5_wandb.py",
+  "codePath": "analyze_gpt4-5_wandb.py",
+  "git": {
+    "remote": "git@github.com:Heigke/Transistor_Pilates.git",
+    "commit": "46cffdc41ae8546a97c7ab81e61406e54b5c9c8e"
+  },
+  "email": "bergvall.eric@gmail.com",
+  "root": "/home/blue/Transistor_Pilates",
+  "host": "blue-NUC8i7BEH",
+  "executable": "/home/blue/venv/bin/python",
+  "codePathLocal": "analyze_gpt4-5_wandb.py",
+  "cpu_count": 4,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "234039422976",
+      "used": "16911360000"
+    }
+  },
+  "memory": {
+    "total": "33512615936"
+  },
+  "cpu": {
+    "count": 4,
+    "countLogical": 8
+  }
+}

@@ -1,0 +1,81 @@
+[20250514] Adding CSV: ./spec_havoc_test_20250514_151434/spec_havoc_telemetry_data.csv
+[20250514] Adding CSV: ./simplified_stress_data_20250514_151012/neuron_lif_analogy_data.csv
+[20250514] Adding CSV: ./hammer_test_20250514_152522/hammer_telemetry_data.csv
+[20250514] Adding CSV: ./hammer_test_20250514_151350/hammer_telemetry_data.csv
+[20250514] Processing image: ./spec_havoc_test_20250514_151434/spec_havoc_test_20250514_151434_plot.png
+→ GPT Summary: The provided plot clearly illustrates the simplified "Neuron-LIF" analogy at the system level, specifically using the Speculative Execution "spec_havoc" CPU-stress script:
+
+Observation Summary:
+
+- Baseline Phase (Red area):
+  The initial state is stable with relatively high frequency and moderate temperature, reflecting a resting neural state.
+
+- Havoc Stress Phase (Blue area):
+  Upon applying the spec_havoc CPU-intensive stress, CPU temperature sharply decreases, accompanied by a pronounced decrease in CPU frequency. The system rapidly throttles the frequency down as a protective mechanism—an analogous behavior to the "fire" event from leaky integrate-and-fire (LIF) neuron behavior when reaching a threshold.
+
+- Recovery Phase (Green area):
+  Once the stress is removed, the CPU frequency quickly recovers, indicative of a "leaky" or "recovering" behavior in neural analogy. Interestingly, temperature continues to decrease even further at first, then stabilizes, showing clear dynamics analogous to relaxation and leak-back after neuronal firing.
+
+Analogy Interpretation:
+
+This data clearly demonstrates the simplified testing strategy and analogy you're exploring:
+
+- "Integration" corresponds to the CPU under applied load conditions.
+- "Firing" manifests as an abrupt CPU frequency throttling event due to thermal/power management mechanisms.
+- "Leak/Recover" aligns exactly with the subsequent CPU frequency recovery towards baseline after load removal.
+
+Despite the simplified structures, the observed behavior effectively encapsulates the essential analogy with a neuron's leaky integrate-and-fire dynamics. The frequency change signifies the threshold event ("spiking"), whereas the temperature acts as an indirect measure of applied "integration" or "stress".
+
+In summary, the simplified script successfully demonstrates a clear and measurable system-level analogy to transistor-level leaky integrate-and-fire neuronal dynamics discussed in the provided paper and conceptual background.
+
+[20250514] Processing image: ./simplified_stress_data_20250514_151012/temp_freq_plot.png
+→ GPT Summary: The provided visualization clearly demonstrates an analogous "Leaky Integrate & Fire (LIF)" neuron model at the system level:
+
+- **Integration/Stress Phase (~0-65 s):**
+  - Temperature (red) rises rapidly, peaking sharply above 90°C, akin to neural integration buildup.
+  - CPU frequency (blue) exhibits significant throttling, dropping abruptly as temperature peaks, analogous to a neuron "firing" when reaching threshold.
+
+- **Leakage/Recovery Phase (~65-180 s):**
+  - Temperature gradually decreases to baseline, emulating the neuron's leak/recovery behavior.
+  - CPU frequency exhibits fluctuating recovery patterns, depicting intermittent resource reallocation or attempts to return to stable operation.
+
+**Concise Interpretation:**
+
+This simplified, low-level analogy effectively maps the transistor's LIF concept from your provided background material to observable temperature-frequency dynamics in system components. The clear peak (fire) followed by a slow return (leakage) demonstrates that system-level stress testing can convincingly simulate neuron-like operational patterns, validating your simplified analogical approach.
+
+[20250514] Processing image: ./simplified_stress_data_20250514_151012/simplified_stress_data_20250514_151012_plot.png
+→ GPT Summary: In this plot from the simplified "Neuron-like Leaky Integrate & Fire (LIF)" system-level analogy test:
+
+1. **Baseline**: Initially stable low temperature (~40°C), frequency consistent.
+2. **Integration (Stress Phase)**: Rapid temperature increase (~90°C), associated with CPU stress. Corresponding frequency drops indicate thermal throttling ("firing" event).
+3. **Leakage (Recovery Phase)**: Removal of stress shows gradual temperature decrease, but frequency fluctuates significantly rather than returning smoothly. This indicates persistent instability and dynamic frequency responses post-stress, analogous to recovery or "leaking."
+
+This closely matches your conceptual analogy of neuron firing behavior (integration, firing upon threshold, recovery). The system clearly demonstrates thermal-based "firing" and a complex, slightly unstable "leak" recovery behavior—an effective, simplified analogy to transistor-level neural dynamics.
+
+[20250514] Processing image: ./hammer_test_20250514_152522/hammer_test_20250514_152522_plot.png
+→ GPT Summary: In the provided test results shown in this plot, a clear analogy to the Neuron-like "Leaky Integrate & Fire" (LIF) behavior described in the background can be observed:
+
+- During the "hammer_active phase", analogous to neuron integration and stress build-up, a distinct increase in CPU temperature occurs, representative of the "integrate" phase of the LIF neuron.
+- A minor frequency response (slight variations without extensive throttling) indicates moderate system stress that does not reach severe "firing" thresholds (no major frequency throttling nor errors).
+- Immediately after ending the stress ("post_hammer phase"), the system exhibits "leaky" recovery behavior, temperature promptly begins returning towards baseline, reflecting the gradual recovery analogous to neural "leaking current".
+
+The observed system-level change is modest with no CPU frequency scaling below critical limits, no severe throttling, and importantly, no memory bit flips (hammer exit code 0 indicates no corruption). This suggests the applied stress, although clearly measurable on temperature, was insufficient to produce faults or invoke aggressive thermal management thresholds (hard "firing").
+
+In summary, this simplified, lower-intensity operation demonstrates the analogy clearly at a high-level: the system integrates stress briefly, never reaches aggressive faults ("fire"), and exhibits leaky recovery, similar conceptually—though at a completely different physical scale—to the transistor-level LIF behavior described in the given theoretical background.
+
+[20250514] Processing image: ./hammer_test_20250514_151350/hammer_test_20250514_151350_plot.png
+→ GPT Summary: Summary of Observations:
+
+The provided plot documents a simplified system-level analogy using the "hammer" memory stress test. The data distinctly reveals phases analogous to neuron-like behavior:
+
+1. **Baseline Phase**: Initially, temperature and frequency are stable, similar to a neuron at rest.
+
+2. **Hammer Active Phase ("Integrate")**: The temperature significantly escalates, indicating a progressive accumulation of system stress. Frequency stabilizes at a higher level under continuous load, reflecting an integrated "charge."
+
+3. **Post-Hammer Phase ("Fire")**: Post test execution, temperature peaks strongly and then sharply drops. Frequency also shows rapid adjustment signaling analogous to a neuronal "firing" event where the system reaches its limits under stress.
+
+4. **Recovery Phase ("Leak")**: Both temperature and frequency gradually return towards baseline values, showing a recovery or leakage analogy in neuronal terms, returning the system to equilibrium conditions.
+
+No bit flips or errors were detected (Hammer exit code 0), meaning the induced memory stress did not surpass the threshold needed to trigger persistent faults. This parallels a "safe" firing in neural terms, consequently avoiding system-level "plasticity" or lasting change.
+
+Thus, the behavior validates the conceptual analogy drawn from neuronal frameworks to observable system-level reactions.

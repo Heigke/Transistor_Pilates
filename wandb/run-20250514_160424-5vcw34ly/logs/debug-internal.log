@@ -1,0 +1,16 @@
+{"time":"2025-05-14T16:04:24.336612466+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.11","symlink path":"/home/blue/Transistor_Pilates/wandb/run-20250514_160424-5vcw34ly/logs/debug-core.log"}
+{"time":"2025-05-14T16:04:24.712958778+02:00","level":"INFO","msg":"created new stream","id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:24.713105264+02:00","level":"INFO","msg":"stream: started","id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:24.71325342+02:00","level":"INFO","msg":"sender: started","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:24.713198766+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:24.713330951+02:00","level":"INFO","msg":"handler: started","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:24.985262741+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-14T16:04:39.864760779+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-14T16:04:39.864881016+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-14T16:04:40.868036051+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading artifact analysis_20250514","runtime_seconds":1.008193707},{"desc":"uploading history steps 0-7, summary, console lines 1-21","runtime_seconds":0.341431693}],"total_operations":2}}
+{"time":"2025-05-14T16:04:41.963419525+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-14T16:04:42.277858298+02:00","level":"INFO","msg":"stream: closing","id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:42.27790364+02:00","level":"INFO","msg":"handler: closed","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:42.277926057+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:42.278005976+02:00","level":"INFO","msg":"sender: closed","stream_id":"5vcw34ly"}
+{"time":"2025-05-14T16:04:42.278126086+02:00","level":"INFO","msg":"stream: closed","id":"5vcw34ly"}

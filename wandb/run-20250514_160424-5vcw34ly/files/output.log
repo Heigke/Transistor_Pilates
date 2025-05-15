@@ -1,0 +1,22 @@
+[20250514] Adding CSV: ./spec_havoc_test_20250514_151434/spec_havoc_telemetry_data.csv
+✅ Logged table: csv_spec_havoc_telemetry_data.csv
+📈 Logged plot: spec_havoc_telemetry_data.csv_plot
+[20250514] Adding CSV: ./simplified_stress_data_20250514_151012/neuron_lif_analogy_data.csv
+✅ Logged table: csv_neuron_lif_analogy_data.csv
+📈 Logged plot: neuron_lif_analogy_data.csv_plot
+[20250514] Adding CSV: ./hammer_test_20250514_152522/hammer_telemetry_data.csv
+✅ Logged table: csv_hammer_telemetry_data.csv
+📈 Logged plot: hammer_telemetry_data.csv_plot
+[20250514] Adding CSV: ./hammer_test_20250514_151350/hammer_telemetry_data.csv
+✅ Logged table: csv_hammer_telemetry_data.csv
+📈 Logged plot: hammer_telemetry_data.csv_plot
+[20250514] Processing image: ./spec_havoc_test_20250514_151434/spec_havoc_test_20250514_151434_plot.png
+Error processing image ./spec_havoc_test_20250514_151434/spec_havoc_test_20250514_151434_plot.png: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+[20250514] Processing image: ./simplified_stress_data_20250514_151012/temp_freq_plot.png
+Error processing image ./simplified_stress_data_20250514_151012/temp_freq_plot.png: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+[20250514] Processing image: ./simplified_stress_data_20250514_151012/simplified_stress_data_20250514_151012_plot.png
+Error processing image ./simplified_stress_data_20250514_151012/simplified_stress_data_20250514_151012_plot.png: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+[20250514] Processing image: ./hammer_test_20250514_152522/hammer_test_20250514_152522_plot.png
+Error processing image ./hammer_test_20250514_152522/hammer_test_20250514_152522_plot.png: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+[20250514] Processing image: ./hammer_test_20250514_151350/hammer_test_20250514_151350_plot.png
+Error processing image ./hammer_test_20250514_151350/hammer_test_20250514_151350_plot.png: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}

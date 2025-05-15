@@ -1,0 +1,16 @@
+{"time":"2025-05-14T15:50:33.657117866+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.11","symlink path":"/home/blue/Transistor_Pilates/wandb/run-20250514_155033-32uwvzhn/logs/debug-core.log"}
+{"time":"2025-05-14T15:50:34.156602796+02:00","level":"INFO","msg":"created new stream","id":"32uwvzhn"}
+{"time":"2025-05-14T15:50:34.156700736+02:00","level":"INFO","msg":"stream: started","id":"32uwvzhn"}
+{"time":"2025-05-14T15:50:34.156787279+02:00","level":"INFO","msg":"sender: started","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:50:34.156791839+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:50:34.156890149+02:00","level":"INFO","msg":"handler: started","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:50:34.405109596+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-14T15:53:00.709249529+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-14T15:53:00.709402637+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-14T15:53:01.712402081+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading artifact analysis_20250514","runtime_seconds":1.007301585},{"desc":"uploading output.log","runtime_seconds":0.190050192,"progress":"7.2KB/7.2KB"},{"desc":"uploading wandb-summary.json","runtime_seconds":0.190004855,"progress":"1.5KB/1.5KB"}],"total_operations":3}}
+{"time":"2025-05-14T15:53:04.676700295+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-14T15:53:05.069582663+02:00","level":"INFO","msg":"stream: closing","id":"32uwvzhn"}
+{"time":"2025-05-14T15:53:05.069632033+02:00","level":"INFO","msg":"handler: closed","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:53:05.069677763+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:53:05.069757347+02:00","level":"INFO","msg":"sender: closed","stream_id":"32uwvzhn"}
+{"time":"2025-05-14T15:53:05.069914042+02:00","level":"INFO","msg":"stream: closed","id":"32uwvzhn"}

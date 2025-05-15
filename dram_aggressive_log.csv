@@ -1,0 +1,5 @@
+event,timestamp,offset,expected,actual,delta_bits
+ENTROPY,0,0.0000
+ENTROPY,2,0.0000
+ENTROPY,5,0.0000
+ENTROPY,10,0.0000

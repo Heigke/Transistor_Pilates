@@ -1,0 +1,33 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: * dram weight write simulation - epoch 42
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Warning: vbl2: no DC value, transient time 0 value used
+Warning: vwl2: no DC value, transient time 0 value used
+Warning: vbl1: no DC value, transient time 0 value used
+Warning: vwl1: no DC value, transient time 0 value used
+Using transient initial conditions
+
+No. of Data Rows : 534
+	* dram weight write simulation - epoch 42
+
+    11 : .model mynmos_model nmos (level=1 vto=0.4 kp=100u w=0.2u l=0.1u)
+    13 : vwl1 c1_wl 0 pwl(0 0 1.000000e-07 0 1.010000e-07 1.800000e+00 4.100000e-06 1.800000e+00 4.101000e-06 0 5.000000e-06 0)
+    14 : vbl1 c1_bl 0 pwl(0 0 1.000000e-07 0 1.010000e-07 1.000000e-01 4.100000e-06 1.000000e-01 4.101000e-06 0 5.000000e-06 0)
+    15 : cc1 c1_node 0    5.000000000000000e-14   
+    16 : rcl1 c1_node 0    1.000000000000000e+14   
+    17 : m1 c1_bl c1_wl c1_node 0 mynmos_model
+    19 : vwl2 c2_wl 0 pwl(0 0 1.000000e-07 0 1.010000e-07 1.800000e+00 4.100000e-06 1.800000e+00 4.101000e-06 0 5.000000e-06 0)
+    20 : vbl2 c2_bl 0 pwl(0 0 1.000000e-07 0 1.010000e-07 1.000000e-01 4.100000e-06 1.000000e-01 4.101000e-06 0 5.000000e-06 0)
+    21 : cc2 c2_node 0    5.000000000000000e-14   
+    22 : rcl2 c2_node 0    1.000000000000000e+14   
+    23 : m2 c2_bl c2_wl c2_node 0 mynmos_model
+    25 : ccouple_cells c1_node c2_node    1.000000000000000e-15   
+    26 : rcouple_cells c1_node c2_node    1.000000000000000e+15   
+    28 : .tran    1.000000000000000e-08     5e-6 uic
+    23 : .end
+ngspice-37 done
